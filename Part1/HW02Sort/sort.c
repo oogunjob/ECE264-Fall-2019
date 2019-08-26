@@ -56,7 +56,7 @@ void ssort(int * arr, int size) // selection sorting function
 
 void swap(int * num1, int * num2)
 {
-  int temp; // temporary number
+  int temp; // temporary place holder
   
   temp = *num1;
   *num1 = *num2;

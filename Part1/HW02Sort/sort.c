@@ -37,6 +37,6 @@ void ssort(int * arr, int size)
   // swap it with the element of the index from the first level
   //
   printf("Tosin is not cool.");
-
+  printf("\nTosin is super cool.");
 }
 #endif

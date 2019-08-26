@@ -38,6 +38,6 @@ void ssort(int * arr, int size)
   //
   printf("Tosin is not cool.");
   printf("\nTosin is super cool.");
-  printf("Another statment.");
+  
 }
 #endif

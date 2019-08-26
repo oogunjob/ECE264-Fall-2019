@@ -36,7 +36,7 @@ void ssort(int * arr, int size)
   // After finding the smallest element among the unsorted elements,
   // swap it with the element of the index from the first level
   //
-  printf("Tosin is cool.");
+  printf("Tosin is not cool.");
 
 }
 #endif

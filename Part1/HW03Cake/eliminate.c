@@ -21,14 +21,14 @@ void eliminate(int n, int k)
       return;
     }
 	
-  // initialize all elements
+  // local variables
   int tally; // variable used to assign array values as 'A'
   int count; // loop control variable for the outer loop
   int count2; // loop control varibale for the inner loop
   int remaining; // amount of students who have not been eliminated
   
-  count2 = 1;
-  remaining = n;
+  count2 = 1; // starts inner to begin counting from 1
+  remaining = n; // initial amount of students still remaining in the game
   
   // initializes values of the array to alive
   for(tally = 0; tally < n; tally++){
@@ -40,7 +40,7 @@ void eliminate(int n, int k)
   {
     for(count = 0; count < n; count++) 
     {
-      if(count2 % k == 0) // checks if the counter is an iteration of k
+      if(count2 % k == 0) // checks if the count is an iteration of k
       { 
         if(arr[count] == 'A') // if the student is still in the game, he/she is eliminated
         {			
@@ -50,7 +50,7 @@ void eliminate(int n, int k)
           count2 = 1; // reinitializes the count to begin counting again from 1 	  
 		}
 	  }
-	  else if (arr[count] == 'A')
+	  else if (arr[count] == 'A') // if the student is has not been eliminated, it continues on to the next student
 		count2 += 1;
 	}
   }

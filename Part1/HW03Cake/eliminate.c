@@ -55,13 +55,13 @@ void eliminate(int n, int k)
 	}
   }
   
-  //prints out the index of the remaining student
+  //finds the index of the remaining student
   count = 0; //reinitializes count as 0
   
   while(arr[count] != 'A')
 	  count++;
   
-   printf("%d\n", count); // the index of the student who gets the cake
+   printf("%d\n", count); // prints the index of the student who gets the cake
 
   free (arr);
 }

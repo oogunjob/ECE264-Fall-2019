@@ -37,10 +37,13 @@ void printCounts(int * counts, int size)
   int count;
   
   for(count = 0; count < size - 1; count++)
-	  if(counts[count] != 0)
+  {
+	  if(counts[count] != 0 && ((count >= 'a' && count <= 'z') || (count >= 'A' && count <= 'Z'))) //NO SPACE
 		  printf("%d, %c, %d\n", count, count, counts[count]);
-	  
-	  
+	  else if(counts[count] != 0 && (!(count >= 'a' && count <= 'z') || !(count >= 'A' && count <= 'Z'))) //SPACE because its not a character
+		  printf("%d,  , %d\n", count, counts[count]);
+  }
+  
   // print the values in counts in the following format
   // each line has three items:
   // ind, onechar, counts[ind]

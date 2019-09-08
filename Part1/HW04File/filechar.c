@@ -6,8 +6,22 @@
 #include <stdbool.h>
 
 #ifdef TEST_COUNTCHAR
-bool countChar(char * filename, char * counts, int size)
-{	
+bool countChar(char * filename, int * counts, int size)
+{
+  //local variables
+  FILE * file; //storage variable for the file being opened
+  int onechar; //the index of the charcter
+
+  file = fopen(filename, "r");  // opens the file
+ 
+  while((onechar = fgetc(file)) != EOF)
+  {
+   if(onechar > 0 && onechar < size - 1)
+     counts[onechar] += 1;
+  }
+    
+  fclose(file);	 
+	
   // open a file whose name is filename for reading
   // if fopen fails, return false. Do NOT fclose
   // if fopen succeeds, read every character from the file
@@ -16,10 +30,10 @@ bool countChar(char * filename, char * counts, int size)
   // 0 and size - 1 (inclusive), increase
   // counts[onechar] by one
   // You should *NOT* assume that size is 256
-  // reemember to call fclose
+  // remember to call fclose
   // you may assume that counts already initialized to zero
   // size is the size of counts
-  // you may assume that counts has enough memory space 
+  // you may assume that counts has enough memory space
   //
   // hint: use fgetc
   // Please read the document of fgetc carefully, in particular
@@ -30,7 +44,7 @@ bool countChar(char * filename, char * counts, int size)
 #endif
 
 #ifdef TEST_PRINTCOUNTS
-void printCounts(char * counts, int size)
+void printCounts(int * counts, int size)
 {
   // print the values in counts in the following format
   // each line has three items:

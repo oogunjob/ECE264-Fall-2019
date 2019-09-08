@@ -11,16 +11,20 @@ bool countChar(char * filename, int * counts, int size)
   //local variables
   FILE * file; //storage variable for the file being opened
   int onechar; //the index of the charcter
-
-  file = fopen(filename, "r");  // opens the file
- 
-  while((onechar = fgetc(file)) != EOF)
-  {
-   if(onechar > 0 && onechar < size - 1)
-     counts[onechar] += 1;
-  }
-    
-  fclose(file);	 
+  
+  // execution
+  file = fopen(filename, "r");  // opens the file to be read
+  
+  if(file == NULL) //if file cannot be opened, it returns false but does not close
+	  return false;
+  else
+    while((onechar = fgetc(file)) != EOF) //if file is opened, reads file character by character
+    {
+     if(onechar > 0 && onechar < size - 1) // if the value is between 0 and the size of the array, increment the count of character by 1
+       counts[onechar] += 1;
+    }
+  	
+  fclose(file);
 	
   // open a file whose name is filename for reading
   // if fopen fails, return false. Do NOT fclose

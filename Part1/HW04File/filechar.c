@@ -15,12 +15,12 @@ bool countChar(char * filename, int * counts, int size)
   //execution
   fileText = fopen(filename, "r");  // opens the file to be read
   
-  if(file == NULL) //if file cannot be opened, it returns false but does not close
+  if(fileText == NULL) //if file cannot be opened, it returns false but does not close
 	  return false;
   else
     while((onechar = fgetc(fileText)) != EOF) //if file is opened, reads file character by character until end of file
     {
-     if(onechar > 0 && onechar < size - 1) // checks if the ASCII value is between 0 and the size of the array
+     if(onechar >= 0 && onechar <= size - 1) // checks if the ASCII value is between 0 and the size of the array
        counts[onechar] += 1; // increments index of character in array by one
     }
   	
@@ -36,13 +36,11 @@ void printCounts(int * counts, int size)
   //local variables
   int count;
   
-  
-  
-  
-  
-  
-  
-  
+  for(count = 0; count < size - 1; count++)
+	  if(counts[count] != 0)
+		  printf("%d, %c, %d\n", count, count, counts[count]);
+	  
+	  
   // print the values in counts in the following format
   // each line has three items:
   // ind, onechar, counts[ind]

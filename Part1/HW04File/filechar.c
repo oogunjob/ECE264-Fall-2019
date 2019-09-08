@@ -9,40 +9,23 @@
 bool countChar(char * filename, int * counts, int size)
 {
   //local variables
-  FILE * file; //storage variable for the file being opened
+  FILE * fileText; //storage variable for the file being opened
   int onechar; //the index of the charcter
   
-  // execution
-  file = fopen(filename, "r");  // opens the file to be read
+  //execution
+  fileText = fopen(filename, "r");  // opens the file to be read
   
   if(file == NULL) //if file cannot be opened, it returns false but does not close
 	  return false;
   else
-    while((onechar = fgetc(file)) != EOF) //if file is opened, reads file character by character
+    while((onechar = fgetc(fileText)) != EOF) //if file is opened, reads file character by character until end of file
     {
-     if(onechar > 0 && onechar < size - 1) // if the value is between 0 and the size of the array, increment the count of character by 1
-       counts[onechar] += 1;
+     if(onechar > 0 && onechar < size - 1) // checks if the ASCII value is between 0 and the size of the array
+       counts[onechar] += 1; // increments index of character in array by one
     }
   	
-  fclose(file);
+  fclose(fileText); // closes the file
 	
-  // open a file whose name is filename for reading
-  // if fopen fails, return false. Do NOT fclose
-  // if fopen succeeds, read every character from the file
-  //
-  // if a character (call it onechar) is between
-  // 0 and size - 1 (inclusive), increase
-  // counts[onechar] by one
-  // You should *NOT* assume that size is 256
-  // remember to call fclose
-  // you may assume that counts already initialized to zero
-  // size is the size of counts
-  // you may assume that counts has enough memory space
-  //
-  // hint: use fgetc
-  // Please read the document of fgetc carefully, in particular
-  // when reaching the end of the file
-  //
   return true;
 }
 #endif
@@ -50,6 +33,16 @@ bool countChar(char * filename, int * counts, int size)
 #ifdef TEST_PRINTCOUNTS
 void printCounts(int * counts, int size)
 {
+  //local variables
+  int count;
+  
+  
+  
+  
+  
+  
+  
+  
   // print the values in counts in the following format
   // each line has three items:
   // ind, onechar, counts[ind]

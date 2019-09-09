@@ -39,18 +39,18 @@ void printCounts(int * counts, int size)
   //prints the value of counts
   for(count = 0; count < size - 1; count++) // checks all index values of the array
   {
-	  if(counts[count] != 0 && ((count >= 'a' && count <= 'z') || (count >= 'A' && count <= 'Z'))) // checks if value is a letter
-      {		  
-	    printf("%d, %c, %d", count, count, counts[count]); // prints the number of times the indexed value occurs in the file
-		if(count != size - 1) // determines wheter or not to add new line
-          printf("\n");
-	  }
-	  else if(counts[count] != 0 && (!(count >= 'a' && count <= 'z') || !(count >= 'A' && count <= 'Z'))) // checks if value is not a letter
-      {		  
-	    printf("%d,  , %d", count, counts[count]); // prints the number of times the index occurs in the file
-		if(count != size - 1) // determines wheter or not to add new line
-          printf("\n");
-	  }	
+    if(counts[count] != 0 && ((count >= 'a' && count <= 'z') || (count >= 'A' && count <= 'Z'))) // checks if value is a letter
+    {		  
+	  printf("%d, %c, %d", count, count, counts[count]); // prints the number of times the indexed value occurs in the file
+	  if(count != size - 1) // determines wheter or not to add new line
+        printf("\n");
+	}
+	else if(counts[count] != 0 && (!(count >= 'a' && count <= 'z') || !(count >= 'A' && count <= 'Z'))) // checks if value is not a letter
+    {		  
+	  printf("%d,  , %d", count, counts[count]); // prints the number of times the index occurs in the file
+      if(count != size - 1) // determines wheter or not to add new line
+        printf("\n");
+	}	
   }
   
   return;

@@ -8,14 +8,27 @@
 #ifdef TEST_ADDFILE
 bool addFile(char * filename, int * sum)
 {
-  // You cannot assume * sum is zero. Thus, * sum needs to be set 0
-  // open a file whose name is filename for reading
-  // if fopen fails, return false. Do NOT fclose
-  // if fopen succeeds, read integers using fscan (do not use fgetc)
-  //
-  // * sum stores the result of adding all numbers from the file
-  // When no more numbers can be read, fclose, return true
-  //
+  //local variables
+  FILE * file; // the storage variable for the file being opened
+  int num; // the value of the number currently being read
+  
+  sum = 0;
+  
+  file = fopen(filename, "r"); // opens the file
+  
+  // checks if the file can be opened or not
+  // if not, it returns false
+  if(file == NULL)
+	  return false;
+  
+  //finds the sum of the numbers in the file
+  while(fscanf(file, "%d", &num) != EOF)
+  {
+    sum += num;
+  }
+  
+  fclose(file); // closes the file
+
   return true;
 }
 #endif

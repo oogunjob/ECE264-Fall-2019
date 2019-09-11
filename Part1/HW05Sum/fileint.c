@@ -12,22 +12,22 @@ bool addFile(char * filename, int * sum)
   FILE * file; // the storage variable for the file being opened
   int num; // the value of the number currently being read
   
-  sum = 0;
-  
   file = fopen(filename, "r"); // opens the file
   
   // checks if the file can be opened or not
   // if not, it returns false
   if(file == NULL)
-	  return false;
+  {
+    return false;
+  }
   
   //finds the sum of the numbers in the file
   while(fscanf(file, "%d", &num) != EOF)
   {
-    sum += num;
+    sum += num; // increments the value of sum
   }
-  
-  fclose(file); // closes the file
+
+   fclose(file); // closes the file
 
   return true;
 }
@@ -37,11 +37,22 @@ bool addFile(char * filename, int * sum)
 #ifdef TEST_WRITESUM
 bool writeSum(char * filename, int sum)
 {
-  // open a file whose name is filename for writing
-  // if fopen succeeds, write sum as an integer using fprintf
-  // fprintf should use one newline '\n'
-  // fclose, return true
-  //
+  //local variables
+  FILE * file; // the storage variable for the file being opened
+    
+  file = fopen(filename, "w"); // opens the file up to be written
+  
+  if(file == NULL) // checks if the file can be opened
+  {
+    return false;
+  }
+  else
+  {
+    fprintf(file, "%d\n", sum); // if the file can be opened, writes the sum to the file
+  }
+
+  fclose(file); //closes the file  
+    
   return true;
 }
 #endif

@@ -12,7 +12,7 @@ bool addFile(char * filename, int * sum)
   FILE * file; // the storage variable for the file being opened
   int num; // the value of the number currently being read
   
-  sum = 0;
+  *sum = 0; 
   
   file = fopen(filename, "r"); // opens the file
   
@@ -24,9 +24,9 @@ bool addFile(char * filename, int * sum)
   }
   
   //finds the sum of the numbers in the file
-  while(fscanf(file, "%d", &num) != EOF)
+  while(fscanf(file, "%d", &num) == 1)
   {
-    sum += num; // increments the value of sum
+   *sum += num; // increments the value of sum
   }
 
   fclose(file); // closes the file

@@ -12,6 +12,8 @@ bool addFile(char * filename, int * sum)
   FILE * file; // the storage variable for the file being opened
   int num; // the value of the number currently being read
   
+  sum = 0;
+  
   file = fopen(filename, "r"); // opens the file
   
   // checks if the file can be opened or not
@@ -27,7 +29,7 @@ bool addFile(char * filename, int * sum)
     sum += num; // increments the value of sum
   }
 
-   fclose(file); // closes the file
+  fclose(file); // closes the file
 
   return true;
 }
@@ -46,10 +48,8 @@ bool writeSum(char * filename, int sum)
   {
     return false;
   }
-  else
-  {
-    fprintf(file, "%d\n", sum); // if the file can be opened, writes the sum to the file
-  }
+  
+  fprintf(file, "%d\n", sum); // if the file can be opened, writes the sum to the file
 
   fclose(file); //closes the file  
     

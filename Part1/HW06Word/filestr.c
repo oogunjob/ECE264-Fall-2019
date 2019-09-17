@@ -13,6 +13,7 @@ int countWord(char * filename, char * word, char * line, int size)
   FILE * file; // storage variable for the file
   int sum; // the amount of times that the word occurs
   char * pointer; // the value that the strstr function returns 
+  
   file = fopen(filename, "r"); // opens up the file to be read
  
   if(file == NULL) // checks if the file can be opened or not

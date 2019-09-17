@@ -35,6 +35,6 @@ int countWord(char * filename, char * word, char * line, int size)
   
   fclose(file); //closes the file
  
-  return (count);
+  return (sum);
 }
 #endif

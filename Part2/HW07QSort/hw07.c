@@ -9,29 +9,61 @@
 #ifdef TEST_COUNTINT
 int countInt(char * filename)
 {
-  // count the number of integers in the file
-  // Please notice that if a file contains
-  // 124 378 -56
-  // There are three integers: 124, 378, -56
-  // DO NOT count individual character '1', '2', '4' ...
-  //
-  // If fopen fails, return -1
-
-  // remember to fclose if fopen succeeds
+  // local variables
+  FILE * file; // variable that holds file
+  int num; // current number that is read from loop
+  int count; //number of integers counted
+  
+  // execution
+  file = fopen(filename, "r"); // opens up the file with integers
+  
+  if(file == NULL) // if the file is not opened, returns false
+  {
+    return false;
+  }
+  
+  // keeps track of the numbers found in the file 
+  while(fscanf(file, "%d", &num) == 1)
+  {
+    count++;
+  }
+  
+  fclose(file); //closes the file
+  
+  return count;
 }
 #endif
 
 #ifdef TEST_READINT
 bool readInt(char* filename, int * intArr, int size)
-{
-  // if fopen fails, return false
-  // read integers from the file.
-  // 
-  //
-  // if the number of integers is different from size (too
-  // few or too many) return false
-  // 
-  // if everything is fine, fclose and return true
+{ 
+  //local variables
+  FILE * file; // variable that holds file
+  int index; // the current index value of the array
+  int count; // number of integers counted
+  
+  index = 0;
+  
+  //execution
+  file = fopen(filename, "r");
+  
+  // stores the integers of the file into the array
+  while(fscanf(file, "%d", &intArr[index]) == 1)
+  {
+    count++; // counts the numbers of integers in the array
+  }
+  
+  // makes sure the number of integers is equal to the size of the array
+  if(count != size)
+  {
+    return false;
+  }
+  
+  // closes the file and returns true if everything is fine
+  else
+  {
+	fclose(file);
+  }
 
   return true;
 }
@@ -40,21 +72,32 @@ bool readInt(char* filename, int * intArr, int size)
 #ifdef TEST_COMPAREINT
 int compareInt(const void *p1, const void *p2)
 {
-  // needed by qsort
-  //
-  // return an integer less than, equal to, or greater than zero if
-  // the first argument is considered to be respectively less than,
-  // equal to, or greater than the second.
+  return (*(const int*)p1 - *(const int*)p2); //comparision equation
 }
 #endif
 
 #ifdef TEST_WRITEINT
 bool writeInt(char* filename, int * intArr, int size)
 {
-  // if fopen fails, return false
-  // write integers to the file.
-  // one integer per line
-  // 
-  // fclose and return true
+  //local variables
+  FILE * file; // variables that holds the file
+  int count; // number of integers prints
+  
+  //execution
+  file = fopen(filename, "w"); // opens up the file
+  
+  if(file == NULL) // checks if the file can be opened or not
+  {
+	return false;
+  }
+  
+  // prints out the integers to the file
+  for(count = 0; count < size; count++)
+  {
+	fprintf(file, "%d\n", intArr[count]);
+  }
+  
+   return true;
+
 }
 #endif

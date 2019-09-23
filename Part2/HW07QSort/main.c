@@ -29,7 +29,7 @@ int main(int argc, char * * argv)
 
   // allocation of memory for the array 
   int * intArr;
-  intArr = (int*) malloc(sizeof(int) * numElem);
+  intArr =  malloc(sizeof(int) * numElem);
   
   //checks wheter allocation is succesfull or not
   if(intArr == NULL)
@@ -41,7 +41,7 @@ int main(int argc, char * * argv)
 
   if (rtv == false) // read fail
     {
-	 free(intArr);
+	 free(intArr); // frees allocated memory
      return EXIT_FAILURE; 
     }
   

@@ -43,6 +43,7 @@ bool readInt(char* filename, int * intArr, int size)
   int count; // number of integers counted
   
   index = 0;
+  count = 0;
   
   //execution
   file = fopen(filename, "r");
@@ -56,14 +57,12 @@ bool readInt(char* filename, int * intArr, int size)
   // makes sure the number of integers is equal to the size of the array
   if(count != size)
   {
+    fclose(file);
     return false;
   }
   
   // closes the file and returns true if everything is fine
-  else
-  {
-	fclose(file);
-  }
+  fclose(file);
 
   return true;
 }
@@ -88,16 +87,18 @@ bool writeInt(char* filename, int * intArr, int size)
   
   if(file == NULL) // checks if the file can be opened or not
   {
-	return false;
+    fclose(file);
+    return false;
   }
   
   // prints out the integers to the file
   for(count = 0; count < size; count++)
   {
-	fprintf(file, "%d\n", intArr[count]);
+    fprintf(file, "%d\n", intArr[count]);
   }
   
+   fclose(file);
+   
    return true;
-
 }
 #endif

@@ -41,6 +41,7 @@ int main(int argc, char * * argv)
 
   if (rtv == false) // read fail
     {
+	 free(intArr);
      return EXIT_FAILURE; 
     }
   

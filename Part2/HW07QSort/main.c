@@ -11,8 +11,6 @@
 #ifdef TEST_MAIN
 int main(int argc, char * * argv)
 {
-  // argv[1]: name of input file
-  // argv[2]: name of output file
 
   // if argc is not 3, return EXIT_FAILURE
   if(argc != 3)
@@ -20,7 +18,7 @@ int main(int argc, char * * argv)
     return EXIT_FAILURE;
   }
 
-  // count the number of integers in the file
+  // counts the number of integers in the file
   int numElem = 0;
   numElem = countInt(argv[1]);
 
@@ -32,7 +30,7 @@ int main(int argc, char * * argv)
 
   // allocation of memory for the array 
   int * intArr;
-  *intArr = malloc(sizeof(int) * numElem);
+  intArr = malloc(sizeof(int) * numElem);
   
   //checks wheter allocation is succesfull or not
   if(intArr == NULL)
@@ -40,7 +38,6 @@ int main(int argc, char * * argv)
     return EXIT_FAILURE; // if the allocation was unsuccessful, EXIT_FAILURE is returned
   }
 
-  
   bool rtv = readInt(argv[1], intArr, numElem);
 
   if (rtv == false) // read fail
@@ -49,7 +46,7 @@ int main(int argc, char * * argv)
     }
   
   // call qsort using the comparison function you write
-  qsort(intArr, size, argv[1]);
+  qsort(intArr, numElem, sizeof(int), compareInt);
   
   // write the sorted array to a file whose name is argv[2]
   
@@ -65,4 +62,3 @@ int main(int argc, char * * argv)
   return EXIT_SUCCESS;
 }
 #endif
-

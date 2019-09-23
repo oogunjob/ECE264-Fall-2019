@@ -19,7 +19,7 @@ int countInt(char * filename)
   
   if(file == NULL) // if the file is not opened, returns false
   {
-    return false;
+    return -1;
   }
   
   // keeps track of the numbers found in the file 

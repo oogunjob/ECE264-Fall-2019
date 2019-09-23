@@ -14,6 +14,10 @@ int countInt(char * filename)
   int num; // current number that is read from loop
   int count; //number of integers counted
   
+  // initialization of variables
+  num = 0;
+  count = 0;
+  
   // execution
   file = fopen(filename, "r"); // opens up the file with integers
   
@@ -57,6 +61,7 @@ bool readInt(char* filename, int * intArr, int size)
   }
   
   // makes sure the number of integers is equal to the size of the array
+  // if not, file is closed and return is false
   if(count != size)
   {
     fclose(file);

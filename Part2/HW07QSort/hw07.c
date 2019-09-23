@@ -99,7 +99,7 @@ bool writeInt(char* filename, int * intArr, int size)
     fprintf(file, "%d\n", intArr[count]);
   }
   
-   fclose(file);
+   fclose(file); //closes the file
    
    return true;
 }

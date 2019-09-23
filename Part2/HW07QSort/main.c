@@ -11,11 +11,9 @@
 #ifdef TEST_MAIN
 int main(int argc, char * * argv)
 {
-
   // if argc is not 3, return EXIT_FAILURE
   if(argc != 3)
   {
-	fprintf(stderr, "An error occured because argc was not equal to 3.\n");
     return EXIT_FAILURE;
   }
 
@@ -26,7 +24,6 @@ int main(int argc, char * * argv)
   // checks if open fails or not
   if (numElem == -1) // fopen fails
     {
-	  fprintf(stderr, "An error occured because fopen failed. \n");
       return EXIT_FAILURE;
     }
 
@@ -37,7 +34,6 @@ int main(int argc, char * * argv)
   //checks wheter allocation is succesfull or not
   if(intArr == NULL)
   {
-	fprintf(stderr, "An error occured because allocation was unsuccessful. \n");
     return EXIT_FAILURE; // if the allocation was unsuccessful, EXIT_FAILURE is returned
   }
 
@@ -45,7 +41,6 @@ int main(int argc, char * * argv)
 
   if (rtv == false) // read fail
     {
-	 fprintf(stderr, "An error occured because the array was unable to be read and copied. \n");
      return EXIT_FAILURE; 
     }
   
@@ -53,16 +48,14 @@ int main(int argc, char * * argv)
   qsort(intArr, numElem, sizeof(int), compareInt);
   
   // write the sorted array to a file whose name is argv[2]
-  
   rtv = writeInt(argv[2], intArr, numElem);
   if (rtv == false) // read fail
     {
-	  fprintf(stderr, "An error occured because the file could not be written. \n");
-      free(intArr); // frees space
+      free(intArr); // frees allocated memory
       return EXIT_FAILURE;
     }
 
-  free(intArr); //frees space
+  free(intArr); //frees allocated memory
   
   return EXIT_SUCCESS;
 }

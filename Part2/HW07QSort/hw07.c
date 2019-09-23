@@ -42,6 +42,7 @@ bool readInt(char* filename, int * intArr, int size)
   int index; // the current index value of the array
   int count; // number of integers counted
   
+  //initialization of variables
   index = 0;
   count = 0;
   

@@ -62,7 +62,7 @@ int main(int argc, char * * argv)
       return EXIT_FAILURE;
     }
 
-  free(intArr);
+  free(intArr); //frees space
   
   return EXIT_SUCCESS;
 }

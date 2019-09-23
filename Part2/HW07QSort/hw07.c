@@ -52,6 +52,7 @@ bool readInt(char* filename, int * intArr, int size)
   while(fscanf(file, "%d", &intArr[index]) == 1)
   {
     count++; // counts the numbers of integers in the array
+	index++; // increases the index
   }
   
   // makes sure the number of integers is equal to the size of the array

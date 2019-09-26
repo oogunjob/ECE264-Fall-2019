@@ -36,6 +36,7 @@ int countVector(char * filename)
     count++;
   }
 
+  fprintf(stdout, "Size of vector is %d\n", count);
   return count;
 }
 #endif
@@ -45,7 +46,6 @@ bool readVector(char* filename, Vector * vecArr, int size)
 {
   //local variables
   FILE * file; // variable that holds the file
-  
   
   file = fopen(filename, "r"); 
   
@@ -71,7 +71,7 @@ bool readVector(char* filename, Vector * vecArr, int size)
 		if(vecArr[count] >= 0)
 		  count++;
 	}
-	
+	*/
 	
 	/*
     if(count != size)
@@ -109,6 +109,12 @@ int compareVector(const void *p1, const void *p2)
   // If the first vector's z is greater than the second vector's z
   // return 1
   // If the two vectors' x, y, z are the same (pairwise), return 0
+  
+  Vector * typecasted_p1 = (Vector *)p1;
+  Vector * typecasted_p2 = (Vector *)p2;
+	
+  // Return comparated value
+  return ((typecasted_p1-> x) - (typecasted_p2-> x));
 }
 #endif
 
@@ -127,7 +133,7 @@ bool writeVector(char* filename, Vector * vecArr, int size)
   }
   
   // write the array to file using fwrite
-  fwrite(vecArr, sizeof(Vector), size, file)
+  fwrite(vecArr, sizeof(Vector), size, file);
   
   // need to check how many have been written
   // if not all are written, fclose and return false

@@ -11,30 +11,80 @@
 #ifdef TEST_COUNTVECTOR
 int countVector(char * filename)
 {
+  //local variables
+  FILE * file; // variable that holds the file
+  int count; // number of vectors counted in the file
+  int fptr[3]; // array for temporary storage of vectors
+   
+  count = 0; // intializes the value of count as 0
+  
   // count the number of vectors in the file and return the number
   // The input is a binary file. You must use fread.
-  // You must not use fscanf(, "%d", ) 
-  //
-  // If fopen fails, return -1
-  //
-  //
-  // For the mode of fopen, you may use "r" without b
-  //
+  // You must not use fscanf(, "%d", )
+  file = fopen(filename, "r");
+  
+ // If fopen fails, return -1
+  if(file == NULL)
+  {
+	fclose(file);
+	return -1;
+  }
+  
+  // fread ???
+  while(fread(fptr , sizeof(int), 3, file))
+  {
+    count++;
+  }
+
+  return count;
 }
 #endif
 
 #ifdef TEST_READVECTOR
 bool readVector(char* filename, Vector * vecArr, int size)
 {
+  //local variables
+  FILE * file; // variable that holds the file
+  
+  
+  file = fopen(filename, "r"); 
+  
   // if fopen fails, return false
-  // read Vectors from the file.
-  // 
-  //
+  if(file == NULL)
+  {
+	fclose(file);
+	return false;
+  }
+  
+  // read Vectors from the file ???
+  fread(vecArr, sizeof(Vector), size, file);
+  
   // if the number of integers is different from size (too
   // few or too many) return false
-  // 
-  // if everything is fine, fclose and return true
+  
+  // NEED TO COUNT THE NUMBER OF INTEGERS FIRST THEN COMPARE IT TO THE SIZE
 
+    /* counts the number of integers in the array
+	NOT sure how to account for vecArr.x, vecArr.y, and vecArr.z
+    for(count = 0; count < size; count++)
+	{
+		if(vecArr[count] >= 0)
+		  count++;
+	}
+	
+	
+	/*
+    if(count != size)
+    {
+	   fclose(file);
+	   return false;
+     }
+	 */
+  
+  // if everything is fine, fclose and return true
+  fclose(file);
+  
+  return true;
 }
 #endif
 
@@ -65,12 +115,28 @@ int compareVector(const void *p1, const void *p2)
 #ifdef TEST_WRITEVECTOR
 bool writeVector(char* filename, Vector * vecArr, int size)
 {
+  //local variables
+  FILE * file; // variable that holds the given file
+  
+  file = fopen(filename, "w"); // opens file to be written
+  
   // if fopen fails, return false
+  if(file == NULL)
+  {
+	return false;
+  }
+  
   // write the array to file using fwrite
+  fwrite(vecArr, sizeof(Vector), size, file)
+  
   // need to check how many have been written
   // if not all are written, fclose and return false
-  // 
-  // fclose and return true
+  
+  // NEED TO MAKE SURE THE NUMBER OF WRITTEN ELEMENTS IS EQUAL TO SIZE
+  
+  fclose(file);
+  return true;
+  
 }
 #endif
 

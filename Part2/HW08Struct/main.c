@@ -58,14 +58,22 @@ int main(int argc, char * * argv)
 #ifdef DEBUG
   printf("\n");
   printVector(vectorArray, numElem);
-#endif  
+  
+#endif 
 
+  qsort(vectorArray, vectorCount, sizeof(Vector), compareVector);
   // write the sorted array to the file whose name is argv[2]
   // if writing fails, release memory and return EXIT_FAILURE
+  rtv = writeVector(argv[2], vectorArray, vectorCount);
+  
+  if(rtv == false)
+  {
+	free(vectorArray);
+	return EXIT_FAILURE;
+  }
   
   // NOT YET COMPLETED
   
- 
   // release memory, return EXIT_SUCCESS
   free(vectorArray);
   return EXIT_SUCCESS;

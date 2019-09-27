@@ -38,7 +38,6 @@ int countVector(char * filename)
 
   fclose(file);
   
-  //fprintf(stdout, "Size of vector is %d\n", count);
   return count;
 }
 #endif
@@ -104,6 +103,7 @@ int compareVector(const void *p1, const void *p2)
   Vector * typecasted_p1 = (Vector *)p1;
   Vector * typecasted_p2 = (Vector *)p2;
   
+  
   if((typecasted_p1 -> x) < (typecasted_p2 -> x))
     return -1;
   
@@ -115,23 +115,20 @@ int compareVector(const void *p1, const void *p2)
 	if((typecasted_p1 -> y) < (typecasted_p2 -> y))
       return -1;
   
-    if((typecasted_p1 -> y) > (typecasted_p2 -> y))
+    else if((typecasted_p1 -> y) > (typecasted_p2 -> y))
 	  return 1;
   }
   
-  if(((typecasted_p1 -> x) == (typecasted_p2 -> x)) && ((typecasted_p1 -> y) == (typecasted_p2 -> y)))
+  if((typecasted_p1 -> y) == (typecasted_p2 -> y))
   {
 	if((typecasted_p1 -> z) < (typecasted_p2 -> z))
 	  return -1;
   
-	if((typecasted_p1 -> z) > (typecasted_p2 -> z))
+	else if((typecasted_p1 -> z) > (typecasted_p2 -> z))
       return 1;
   }
-  
-  if(((typecasted_p1 -> x) == (typecasted_p2 -> x)) && ((typecasted_p1 -> y) == (typecasted_p2 -> y)) && ((typecasted_p1 -> z) == (typecasted_p2 -> z)))
-    return 0;
-
-  return 1;
+ 
+	return 0;
 }
 #endif
 
@@ -161,7 +158,6 @@ bool writeVector(char* filename, Vector * vecArr, int size)
 	fprintf(stderr, "The number of integers written was different from the size");
 	return false;
   }
-  
   
   // if everything is fine, fclose and return true
   fclose(file);

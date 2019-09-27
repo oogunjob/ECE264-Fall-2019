@@ -51,13 +51,13 @@ int main(int argc, char * * argv)
   }
 
 #ifdef DEBUG
-  printVector(vecArr, numElem);
+  printVector(vectorArray, vectorCount);
 #endif  
 
 
 #ifdef DEBUG
   printf("\n");
-  printVector(vectorArray, numElem);
+  printVector(vectorArray, vectorCount);
   
 #endif 
 
@@ -68,11 +68,9 @@ int main(int argc, char * * argv)
   
   if(rtv == false)
   {
-	free(vectorArray);
-	return EXIT_FAILURE;
+    free(vectorArray);
+    return EXIT_FAILURE;
   }
-  
-  // NOT YET COMPLETED
   
   // release memory, return EXIT_SUCCESS
   free(vectorArray);

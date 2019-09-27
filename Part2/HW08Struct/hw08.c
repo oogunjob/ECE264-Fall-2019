@@ -30,13 +30,15 @@ int countVector(char * filename)
 	return -1;
   }
   
-  // fread ???
+  //count the number of vectors in the file
   while(fread(fptr , sizeof(int), 3, file))
   {
     count++;
   }
 
-  fprintf(stdout, "Size of vector is %d\n", count);
+  fclose(file);
+  
+  //fprintf(stdout, "Size of vector is %d\n", count);
   return count;
 }
 #endif
@@ -46,7 +48,8 @@ bool readVector(char* filename, Vector * vecArr, int size)
 {
   //local variables
   FILE * file; // variable that holds the file
-  
+  int count; // number of integers counted
+
   file = fopen(filename, "r"); 
   
   // if fopen fails, return false
@@ -56,30 +59,18 @@ bool readVector(char* filename, Vector * vecArr, int size)
 	return false;
   }
   
-  // read Vectors from the file ???
-  fread(vecArr, sizeof(Vector), size, file);
+  // read Vectors from the file
+  count = fread(vecArr, sizeof(Vector), size, file);
   
+
   // if the number of integers is different from size (too
   // few or too many) return false
-  
-  // NEED TO COUNT THE NUMBER OF INTEGERS FIRST THEN COMPARE IT TO THE SIZE
-
-    /* counts the number of integers in the array
-	NOT sure how to account for vecArr.x, vecArr.y, and vecArr.z
-    for(count = 0; count < size; count++)
-	{
-		if(vecArr[count] >= 0)
-		  count++;
-	}
-	*/
-	
-	/*
-    if(count != size)
-    {
-	   fclose(file);
-	   return false;
-     }
-	 */
+  if(count != size)
+  {
+	fclose(file);
+	fprintf(stderr, "The number of integers was different from the size");
+	return false;
+  }
   
   // if everything is fine, fclose and return true
   fclose(file);
@@ -112,9 +103,35 @@ int compareVector(const void *p1, const void *p2)
   
   Vector * typecasted_p1 = (Vector *)p1;
   Vector * typecasted_p2 = (Vector *)p2;
-	
-  // Return comparated value
-  return ((typecasted_p1-> x) - (typecasted_p2-> x));
+  
+  if((typecasted_p1 -> x) < (typecasted_p2 -> x))
+    return -1;
+  
+  if((typecasted_p1 -> x) > (typecasted_p2 -> x))
+	return 1;
+  
+  if((typecasted_p1 -> x) == (typecasted_p2 -> x))
+  {
+	if((typecasted_p1 -> y) < (typecasted_p2 -> y))
+      return -1;
+  
+    if((typecasted_p1 -> y) > (typecasted_p2 -> y))
+	  return 1;
+  }
+  
+  if(((typecasted_p1 -> x) == (typecasted_p2 -> x)) && ((typecasted_p1 -> y) == (typecasted_p2 -> y)))
+  {
+	if((typecasted_p1 -> z) < (typecasted_p2 -> z))
+	  return -1;
+  
+	if((typecasted_p1 -> z) > (typecasted_p2 -> z))
+      return 1;
+  }
+  
+  if(((typecasted_p1 -> x) == (typecasted_p2 -> x)) && ((typecasted_p1 -> y) == (typecasted_p2 -> y)) && ((typecasted_p1 -> z) == (typecasted_p2 -> z)))
+    return 0;
+
+  return 1;
 }
 #endif
 
@@ -123,6 +140,7 @@ bool writeVector(char* filename, Vector * vecArr, int size)
 {
   //local variables
   FILE * file; // variable that holds the given file
+  int count; //the number of integers written to the file
   
   file = fopen(filename, "w"); // opens file to be written
   
@@ -133,13 +151,19 @@ bool writeVector(char* filename, Vector * vecArr, int size)
   }
   
   // write the array to file using fwrite
-  fwrite(vecArr, sizeof(Vector), size, file);
+  count = fwrite(vecArr, sizeof(Vector), size, file);
   
   // need to check how many have been written
   // if not all are written, fclose and return false
+  if(count != size)
+  {
+	fclose(file);
+	fprintf(stderr, "The number of integers written was different from the size");
+	return false;
+  }
   
-  // NEED TO MAKE SURE THE NUMBER OF WRITTEN ELEMENTS IS EQUAL TO SIZE
   
+  // if everything is fine, fclose and return true
   fclose(file);
   return true;
   

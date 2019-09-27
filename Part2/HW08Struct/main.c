@@ -57,7 +57,7 @@ int main(int argc, char * * argv)
 
 #ifdef DEBUG
   printf("\n");
-  printVector(vectorArray, vectorCount);
+ // printVector(vectorArray, vectorCount);
   
 #endif 
 

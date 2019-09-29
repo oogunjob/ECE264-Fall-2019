@@ -31,66 +31,70 @@ bool readData(char * filename, int * * arr, int * size)
 {
   // use fopen to open the file for read
   // return false if fopen fails
-
-
-
+  FILE * file;
+  file = fopen(filename, "r");
+  
+  if(file == NULL)
+  {
+	fclose(file);
+	return false;
+  }
 
   // use fseek to go to the end of the file
   // check whether fseek fails
   // if fseek fails, fclose and return false
-
-
-
-
+  if(fseek(file, 0, SEEK_END) == NULL)
+  {
+	fclose(file);
+	return false;
+  }
 
   // use ftell to determine the size of the file
+  size = ftell(file);
 
-
-
-  
   // use fseek to go back to the beginning of the file
   // check whether fseek fails
-
-
-
-  
   // if fseek fails, fclose and return false
-
-
-
+  
+    if(fseek(file, 0, SEEK_SET) == NULL)
+  {
+	fclose(file);
+	return false;
+  }
+  
   // the number of integers is the file's size divided by
   // size of int  
-
-
-
-
-  
+  size /= sizeof(int);
 
   // allocate memory for the array
-
+  arr = malloc(sizeof(int) * size);
 
   // if malloc fails, fclose and return false
-
-
+  if(arr == NULL)
+  {
+	fclose(file);
+	return false;
+  }
 
   // use fread to read the number of integers in the file
-
-
-
-
+  int count; // number of integers read by the fread function
+  count = fread(arr, sizeof(int), 1, file);
+  
   // if fread does not read the correct number
   // release allocated memory
   // fclose
   // return false
-
-
-
-
+  if(count == size)
+  {
+	free(arr);
+	fclose(file);
+	return false;
+  }
   
   // if fread succeeds
   // close the file
+  fclose(file);
 
-  
   // update the argument for the array address
 
 

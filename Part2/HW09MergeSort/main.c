@@ -18,14 +18,14 @@ int main(int argc, char * * argv)
       return EXIT_FAILURE;
     }
 
-
   // create a pointer to store the elements read from the input file
   int * arr;
   // size of the array
   int size;
+  size = 0;
 
   bool rtv;
-  rtv = readData(....); // read the input file, allocate memory
+  rtv = readData(argv[1], arr, size); // read the input file, allocate memory
   if (rtv == false)
     {
       return EXIT_FAILURE;

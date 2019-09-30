@@ -55,7 +55,6 @@ bool readData(char * filename, int * * arr, int * size)
   // use fseek to go back to the beginning of the file
   // check whether fseek fails
   // if fseek fails, fclose and return false
-  
     if(fseek(file, 0, SEEK_SET) == NULL)
   {
 	fclose(file);
@@ -84,7 +83,7 @@ bool readData(char * filename, int * * arr, int * size)
   // release allocated memory
   // fclose
   // return false
-  if(count == size)
+  if(count != size)
   {
 	free(arr);
 	fclose(file);
@@ -114,35 +113,33 @@ bool readData(char * filename, int * * arr, int * size)
 bool writeData(char * filename, const int * arr, int size)
 {
   // fopen for write
-
-
+  FILE * file;
+  file = fopen(filename, "w");
 
   // if fopen fails, return false
-
-
+  if(file == NULL)
+  {
+	fclose(file);
+	return false;
+  }
 
   // use fwrite to write the entire array to a file
-
-
-
+  int count; // number of integers written to the file
+  count = fwrite(arr, sizeof(int), size, file);
+  
   // check whether all elements of the array have been written
-
-
+  // if not all elements have been written, return false
+  if(count != size)
+  {
+	fclose(file);
+	return false;
+  }
 
   // fclose
-
-
-  
-  // if not all elements have been written, return false
-
-
+  fclose(file);
 
   // if all elements have been written, return true
-
-
-
-
-
+  return true;
 }
 #endif
 
@@ -177,7 +174,7 @@ static void merge(int * arr, int l, int m, int r)
 
 
   // Hint: you may consider to allocate memory here.
-  // Allocating additiional memory makes this function easier to write
+  // Allocating additional memory makes this function easier to write
 
 
 
@@ -219,8 +216,17 @@ void mergeSort(int arr[], int l, int r)
   // This part is used for grading. 
   printInput("mergeSort", arr, l, r, -1);
 #endif
-
+   
   // if the array has no or one element, do nothing
+  if(!(sizeof(arr) <= 1))
+  {
+	
+	  
+	  
+	  
+	  
+	  
+  }
 
 
 

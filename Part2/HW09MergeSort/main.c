@@ -35,15 +35,16 @@ int main(int argc, char * * argv)
   // be careful about the arguments
   mergeSort(....);
 
-
+  
   // write results to the output file
-  rtv = writeData(....);
-  free (arr);
+  rtv = writeData(argv[2], arr, size);
+  free(arr);
 
   if (rtv == false)
     {
       return EXIT_FAILURE;
     }
+	
   return EXIT_SUCCESS;
 }
 #endif

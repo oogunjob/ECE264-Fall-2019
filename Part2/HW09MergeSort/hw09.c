@@ -43,9 +43,6 @@ bool readData(char * filename, int * * arr, int * size)
   // check whether fseek fails
   // if fseek fails, fclose and return false
   
-  // fseek returns integer
-  // 0 for success, -1 for failure
-  
   int seekTest; // answer for if fseek succeeds or fails
   
   seekTest = fseek(file, 0, SEEK_END);
@@ -62,7 +59,7 @@ bool readData(char * filename, int * * arr, int * size)
   // check whether fseek fails
   // if fseek fails, fclose and return false
   seekTest = fseek(file, 0, SEEK_SET);
-    
+  
     if(seekTest == -1)
   {
 	fclose(file);
@@ -126,7 +123,7 @@ bool writeData(char * filename, const int * arr, int size)
 
   // use fwrite to write the entire array to a file
   int count; // number of integers written to the file
-  count = fwrite(&arr, sizeof(int), size, file);
+  count = fwrite(arr, sizeof(int), size, file);
   
   // check whether all elements of the array have been written
   // if not all elements have been written, return false
@@ -167,79 +164,63 @@ static void merge(int * arr, int l, int m, int r)
   // This part is used for grading. 
   printInput("Merge in", arr, l, m, r);
 #endif
-
-  int i;
-  int left_end; 
-  int count;
-  int tmp_pos;
-
-  int * tmp;
-  
-  tmp = malloc(sizeof(int) * sizeof(arr));
     
-  left_end = m - 1;
-  tmp_pos = l;
-  count = r - l + 1;
- 
-    while ((l <= left_end) && (m <= r))
-    {
-        if (arr[l] <= arr[m])
-        {
-            tmp[tmp_pos] = arr[l];
-            tmp_pos = tmp_pos + 1;
-            l = l + 1;
-        }
+	//local variables
+    int i; //place holder variable
+	int j; //place holder variable
+	int k; //place holder variable
+	
+    int n1 = m - l + 1; 
+    int n2 =  r - m; 
+  
+    int L[100000]; //temporary array
+	int R[100000]; //temporary array
+  
+    // Data Copied into the temporary arrays
+    for (i = 0; i < n1; i++)
+    {		
+      L[i] = arr[l + i]; 
+	}
+	
+    for (j = 0; j < n2; j++)
+	{
+      R[j] = arr[m + 1+ j];
+	}		
+  
+    i = 0; // Initial index of first subarray 
+    j = 0; // Initial index of second subarray 
+    k = l; // Initial index of merged subarray 
+   
+   while (i < n1 && j < n2) 
+    { 
+        if (L[i] <= R[j]) 
+        { 
+            arr[k] = L[i]; 
+            i++; 
+        } 
         else
-        {
-            tmp[tmp_pos] = arr[m];
-            tmp_pos = tmp_pos + 1;
-            m = m + 1;
-        }
-    }
- 
-    while (l <= left_end)
-    {
-        tmp[tmp_pos] = arr[l];
-        l = l + 1;
-        tmp_pos = tmp_pos + 1;
-    }
-    while (m <= r)
-    {
-        tmp[tmp_pos] = arr[m];
-        m = m + 1;
-        tmp_pos = tmp_pos + 1;
-    }
- 
-    for (i = 0; i <= count; i++)
-    {
-        arr[r] = tmp[r];
-        r = r - 1;
-    }
+        { 
+            arr[k] = R[j]; 
+            j++; 
+        } 
+        k++; 
+    } 
   
-	  
-	  
-	  
-	  
- 
+    // Copies the elements of the array in the left temporary array
+    while (i < n1) 
+    { 
+        arr[k] = L[i]; 
+        i++; 
+        k++; 
+    } 
   
-
-  // if one or both of the arrays are empty, do nothing
-  
-
-
-
-
-  // Hint: you may consider to allocate memory here.
-  // Allocating additional memory makes this function easier to write
-
-
-
-
-  // merge the two parts (each part is already sorted) of the array
-  // into one sorted array
-
-  
-
+    // Copies the elements of the array in the left temporary array
+    while (j < n2) 
+    { 
+        arr[k] = R[j]; 
+        j++; 
+        k++; 
+    } 
 
   // the following should be at the bottom of the function
 #ifdef DEBUG
@@ -276,7 +257,7 @@ void mergeSort(int arr[], int l, int r)
   if(l < r)
   {
 	// divide the array into two arrays
-    midpoint = (l + r) / 2; 
+    midpoint = l + (r - l) / 2;
 	
 	// call mergeSort with each array
     mergeSort(arr, l, midpoint);
@@ -286,9 +267,6 @@ void mergeSort(int arr[], int l, int r)
  
     merge(arr, l, midpoint, r);
   }
-
-  
-
 
 } 
 #endif

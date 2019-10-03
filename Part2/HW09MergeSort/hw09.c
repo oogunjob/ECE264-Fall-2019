@@ -36,40 +36,47 @@ bool readData(char * filename, int * * arr, int * size)
   
   if(file == NULL)
   {
-	fclose(file);
 	return false;
   }
 
   // use fseek to go to the end of the file
   // check whether fseek fails
   // if fseek fails, fclose and return false
-  if(fseek(file, 0, SEEK_END) == NULL)
+  
+  // fseek returns integer
+  // 0 for success, -1 for failure
+  
+  int seekTest; // answer for if fseek succeeds or fails
+  
+  seekTest = fseek(file, 0, SEEK_END);
+  if(seekTest == -1)
   {
 	fclose(file);
 	return false;
   }
 
   // use ftell to determine the size of the file
-  size = ftell(file);
+  *size = ftell(file);
 
   // use fseek to go back to the beginning of the file
   // check whether fseek fails
   // if fseek fails, fclose and return false
-    if(fseek(file, 0, SEEK_SET) == NULL)
+  seekTest = fseek(file, 0, SEEK_SET);
+    
+    if(seekTest == -1)
   {
 	fclose(file);
 	return false;
   }
   
-  // the number of integers is the file's size divided by
-  // size of int  
-  size /= sizeof(int);
+  // the number of integers is the file's size divided by size of int  
+  *size = *size / sizeof(int);
 
   // allocate memory for the array
-  arr = malloc(sizeof(int) * size);
-
+  *arr = malloc(sizeof(int) * (*size));
+  
   // if malloc fails, fclose and return false
-  if(arr == NULL)
+  if(*arr == NULL)
   {
 	fclose(file);
 	return false;
@@ -77,13 +84,15 @@ bool readData(char * filename, int * * arr, int * size)
 
   // use fread to read the number of integers in the file
   int count; // number of integers read by the fread function
-  count = fread(arr, sizeof(int), 1, file);
+  
+  count = fread(*arr, sizeof(int), *size, file);
   
   // if fread does not read the correct number
   // release allocated memory
   // fclose
   // return false
-  if(count != size)
+  
+  if(count != *size)
   {
 	free(arr);
 	fclose(file);
@@ -93,14 +102,6 @@ bool readData(char * filename, int * * arr, int * size)
   // if fread succeeds
   // close the file
   fclose(file);
-
-  // update the argument for the array address
-
-
-  
-  // update the size of the array
-
-
   
   return true;
 }
@@ -125,7 +126,7 @@ bool writeData(char * filename, const int * arr, int size)
 
   // use fwrite to write the entire array to a file
   int count; // number of integers written to the file
-  count = fwrite(arr, sizeof(int), size, file);
+  count = fwrite(&arr, sizeof(int), size, file);
   
   // check whether all elements of the array have been written
   // if not all elements have been written, return false
@@ -167,8 +168,63 @@ static void merge(int * arr, int l, int m, int r)
   printInput("Merge in", arr, l, m, r);
 #endif
 
-  // if one or both of the arrays are empty, do nothing
+  int i;
+  int left_end; 
+  int count;
+  int tmp_pos;
 
+  int * tmp;
+  
+  tmp = malloc(sizeof(int) * sizeof(arr));
+    
+  left_end = m - 1;
+  tmp_pos = l;
+  count = r - l + 1;
+ 
+    while ((l <= left_end) && (m <= r))
+    {
+        if (arr[l] <= arr[m])
+        {
+            tmp[tmp_pos] = arr[l];
+            tmp_pos = tmp_pos + 1;
+            l = l + 1;
+        }
+        else
+        {
+            tmp[tmp_pos] = arr[m];
+            tmp_pos = tmp_pos + 1;
+            m = m + 1;
+        }
+    }
+ 
+    while (l <= left_end)
+    {
+        tmp[tmp_pos] = arr[l];
+        l = l + 1;
+        tmp_pos = tmp_pos + 1;
+    }
+    while (m <= r)
+    {
+        tmp[tmp_pos] = arr[m];
+        m = m + 1;
+        tmp_pos = tmp_pos + 1;
+    }
+ 
+    for (i = 0; i <= count; i++)
+    {
+        arr[r] = tmp[r];
+        r = r - 1;
+    }
+  
+	  
+	  
+	  
+	  
+ 
+  
+
+  // if one or both of the arrays are empty, do nothing
+  
 
 
 
@@ -181,11 +237,6 @@ static void merge(int * arr, int l, int m, int r)
 
   // merge the two parts (each part is already sorted) of the array
   // into one sorted array
-
-  
-
-
-
 
   
 
@@ -216,26 +267,27 @@ void mergeSort(int arr[], int l, int r)
   // This part is used for grading. 
   printInput("mergeSort", arr, l, r, -1);
 #endif
-   
+  // local variables
+  int midpoint; // middle of the array
+  
+  midpoint = 0;
+  
   // if the array has no or one element, do nothing
-  if(!(sizeof(arr) <= 1))
+  if(l < r)
   {
+	// divide the array into two arrays
+    midpoint = (l + r) / 2; 
 	
-	  
-	  
-	  
-	  
-	  
+	// call mergeSort with each array
+    mergeSort(arr, l, midpoint);
+    mergeSort(arr, midpoint + 1, r);
+  
+    // merge the two arrays into one
+ 
+    merge(arr, l, midpoint, r);
   }
 
-
-
-  // divide the array into two arrays
-  // call mergeSort with each array
-  // merge the two arrays into one
   
-
-
 
 
 } 

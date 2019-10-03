@@ -20,31 +20,39 @@ int main(int argc, char * * argv)
 
   // create a pointer to store the elements read from the input file
   int * arr;
+  
   // size of the array
   int size;
-  size = 0;
 
   bool rtv;
-  rtv = readData(argv[1], arr, size); // read the input file, allocate memory
+  size = 0;
+  
+  // read the input file, allocate memory
+  
+  rtv = readData(argv[1], &arr, &size);
   if (rtv == false)
     {
+      free(arr);
+      fprintf(stderr, "Error occured when reading data");
       return EXIT_FAILURE;
     }
 
   // call mergeSort
   // be careful about the arguments
-  mergeSort(....);
-
   
+  mergeSort(arr, 0, size - 1);
+
   // write results to the output file
+  
   rtv = writeData(argv[2], arr, size);
-  free(arr);
 
   if (rtv == false)
-    {
+    { 
+      free(arr);
       return EXIT_FAILURE;
     }
 	
+  free(arr);
   return EXIT_SUCCESS;
 }
 #endif

@@ -19,12 +19,13 @@ int main(int argc, char * * argv)
     }
 
   // create a pointer to store the elements read from the input file
-  int * arr;
+  int * arr; // the pointer array that stores the elements
   
   // size of the array
   int size;
 
-  bool rtv;
+  bool rtv; // return value that determines state of function
+  
   size = 0;
   
   // read the input file, allocate memory
@@ -33,12 +34,10 @@ int main(int argc, char * * argv)
   if (rtv == false)
     {
       free(arr);
-      fprintf(stderr, "Error occured when reading data");
       return EXIT_FAILURE;
     }
 
   // call mergeSort
-  // be careful about the arguments
   
   mergeSort(arr, 0, size - 1);
 

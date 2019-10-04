@@ -31,8 +31,8 @@ bool readData(char * filename, int * * arr, int * size)
 {
   // use fopen to open the file for read
   // return false if fopen fails
-  FILE * file;
-  file = fopen(filename, "r");
+  FILE * file; // the variable that holds the file 
+  file = fopen(filename, "r"); // opens the file
   
   if(file == NULL)
   {
@@ -117,7 +117,6 @@ bool writeData(char * filename, const int * arr, int size)
   // if fopen fails, return false
   if(file == NULL)
   {
-	fclose(file);
 	return false;
   }
 
@@ -168,61 +167,63 @@ static void merge(int * arr, int l, int m, int r)
 	//local variables
     int i; //place holder variable
 	int j; //place holder variable
-	int k; //place holder variable
+	int q; //place holder variable
 	
-    int n1 = m - l + 1; 
-    int n2 =  r - m; 
+    int size = m - l + 1; 
+    int index =  r - m; 
   
-    int L[100000]; //temporary array
-	int R[100000]; //temporary array
+    int Left[100000]; //temporary array
+	int Right[10000]; //temporary array
   
     // Data Copied into the temporary arrays
-    for (i = 0; i < n1; i++)
+    for (i = 0; i < size; i++)
     {		
-      L[i] = arr[l + i]; 
+      Left[i] = arr[l + i]; 
 	}
 	
-    for (j = 0; j < n2; j++)
+    for (j = 0; j < index; j++)
 	{
-      R[j] = arr[m + 1+ j];
+      Right[j] = arr[m + 1+ j];
 	}		
   
     i = 0; // Initial index of first subarray 
     j = 0; // Initial index of second subarray 
-    k = l; // Initial index of merged subarray 
+    q = l; // Initial index of merged subarray 
    
-   while (i < n1 && j < n2) 
+   // sorts array
+   while (i < size && j < index) 
     { 
-        if (L[i] <= R[j]) 
+        if (Left[i] <= Right[j]) 
         { 
-            arr[k] = L[i]; 
+            arr[q] = Left[i]; 
             i++; 
         } 
         else
         { 
-            arr[k] = R[j]; 
+            arr[q] = Right[j]; 
             j++; 
         } 
-        k++; 
+        q++; 
     } 
   
     // Copies the elements of the array in the left temporary array
-    while (i < n1) 
+    while (i < size) 
     { 
-        arr[k] = L[i]; 
+        arr[q] = Left[i]; 
         i++; 
-        k++; 
+        q++; 
     } 
   
     // Copies the elements of the array in the left temporary array
-    while (j < n2) 
+    while (j < index) 
     { 
-        arr[k] = R[j]; 
+        arr[q] = Right[j]; 
         j++; 
-        k++; 
+        q++; 
     } 
 
-  // the following should be at the bottom of the function
+  // complete merge of the array
+  
 #ifdef DEBUG
   // Do not modify this part between #ifdef DEBUG and #endif
   // This part is used for grading. 

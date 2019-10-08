@@ -34,12 +34,11 @@ void divide(CardDeck origDeck, CardDeck * leftDeck, CardDeck * rightDeck)
 {
   //local variables
   int count; // index of the loop
-  int leftIndex;
-  int rightIndex;
+  int leftIndex; // the number of elements in the left deck
+  int rightIndex; // the number of elements in the right deck
   
-  for(count = 0; count <= origDeck.size - 1; count++)
+  for(count = 0; count < origDeck.size - 1; count++)
   {
-	
     leftIndex = count + 1; // the index of the left deck
 	rightIndex = origDeck.size - count - 1; // the index of the right deck
 	
@@ -48,15 +47,6 @@ void divide(CardDeck origDeck, CardDeck * leftDeck, CardDeck * rightDeck)
 	
 	rightDeck[count].size = rightIndex; // updates the size of how many cards are in a character array in the left deck
 	leftDeck[count].size = leftIndex; // updates the size of how many cards are in a character array in the left deck
-	
-	/*
-    printf("The left deck is: \n");
-    printDeck(leftDeck[count]);
-   
-    printf("The right deck is: \n");
-    printDeck(rightDeck[count]);
-	*/
-	
   }
  
 }
@@ -118,13 +108,13 @@ void interleave(CardDeck leftDeck, CardDeck rightDeck)
 void helperFunction(CardDeck combinedDeck, CardDeck leftDeck, CardDeck rightDeck)
 {
 	//local variables
-	int count;
+	int count; // keeps track of the index
 	
 	// Makes sure the left deck isn't empty
 	if (leftDeck.size == 0)
     {
-        // If empty, add remaining rightDeck cards
-        for(count = 0; count < (rightDeck.size); count++)
+        // if the deck is empty, adds remaining rightDeck cards
+        for(count = 0; count < rightDeck.size; count++)
         {
             // Copies cards into new deck
             memcpy(&combinedDeck.cards[combinedDeck.size], &rightDeck.cards[count], 1);
@@ -135,14 +125,15 @@ void helperFunction(CardDeck combinedDeck, CardDeck leftDeck, CardDeck rightDeck
 		
         // prints the deck
         printDeck(combinedDeck);
-        return;
+        
+		return;
     }
 	
     // Makes sure the right deck isn't empty
 	else if (rightDeck.size == 0)
     {
-        // If empty, add remaining leftDeck cards
-        for(count = 0; count < (leftDeck.size); count++)
+        // if the deck is empty, adds remaining leftDeck cards
+        for(count = 0; count < leftDeck.size; count++)
         {
             
             memcpy(&combinedDeck.cards[combinedDeck.size], &leftDeck.cards[count], 1);
@@ -157,60 +148,62 @@ void helperFunction(CardDeck combinedDeck, CardDeck leftDeck, CardDeck rightDeck
         return;
     }
 
-    // Make a new upper deck for recursive calling
+    // Make a new left deck for recursive calling
     CardDeck new_leftDeck;
-    new_leftDeck.size = 0; 
+    
+	new_leftDeck.size = 0; 
 
     // Make a copy of combined deck
-    CardDeck new_combinedDeck_a;
+    CardDeck combinedDeckA; // a copy of the combined deck
     
-	new_combinedDeck_a.size = combinedDeck.size;
+	combinedDeckA.size = combinedDeck.size; // sets the size of the new combined deck equal to the orignial combined deck
 	
     for(count = 0; count < (combinedDeck.size); count++)
     {  
-	  memcpy(&new_combinedDeck_a.cards[count], &combinedDeck.cards[count], 1);  
+	  memcpy(&combinedDeckA.cards[count], &combinedDeck.cards[count], 1);  
 	}
 
-	// Pick from upper deck, add to new deck
-    memcpy(&new_combinedDeck_a.cards[new_combinedDeck_a.size], &leftDeck.cards[0], 1);
-    new_combinedDeck_a.size += 1;
+	// copies from the right deck to add to the new deck
+    memcpy(&combinedDeckA.cards[combinedDeckA.size], &leftDeck.cards[0], 1);
+    combinedDeckA.size += 1;
     
-    // Fill the new upper deck with cards
+    // fills the new left deck with cards
     for(count = 1; count < (leftDeck.size); count++)
     {
         memcpy(&new_leftDeck.cards[count - 1], &leftDeck.cards[count], 1);
         new_leftDeck.size += 1;
     }
     
-    // Call reursively
-    helperFunction(new_combinedDeck_a, new_leftDeck, rightDeck);
+    // calls the function again for the combined deck
+    helperFunction(combinedDeckA, new_leftDeck, rightDeck);
 
 
-    // Make a new lower deck for recursive calling
+
+    // Make a new right deck for recursive calling
     CardDeck new_rightDeck;
     new_rightDeck.size = 0;
     
     // Make a copy of combined deck
-    CardDeck new_combinedDeck_b;
-    new_combinedDeck_b.size = combinedDeck.size;
+    CardDeck combinedDeckB; // copy of the combined deck
+    combinedDeckB.size = combinedDeck.size;
 	
     for(count = 0; count < (combinedDeck.size); count++)
     {  
-      memcpy(&new_combinedDeck_b.cards[count], &combinedDeck.cards[count], 1);  
+      memcpy(&combinedDeckB.cards[count], &combinedDeck.cards[count], 1);  
 	}
 
-	// Pick from left deck to add to the new deck
-    memcpy(&new_combinedDeck_b.cards[new_combinedDeck_b.size], &rightDeck.cards[0], 1);
-    new_combinedDeck_b.size += 1;
+	// copies from the right deck to add to the new deck
+    memcpy(&combinedDeckB.cards[combinedDeckB.size], &rightDeck.cards[0], 1);
+    combinedDeckB.size += 1;
     
-    // Fill the new right deck with cards
+    // fills the new left deck with cards
     for(count = 1; count < (rightDeck.size); count++)
     {  
 	  memcpy(&new_rightDeck.cards[count - 1], &rightDeck.cards[count], 1); new_rightDeck.size += 1;  
 	}
     
-    // recalls the function
-    helperFunction(new_combinedDeck_b, leftDeck, new_rightDeck);
+    // calls the function again for the combined deck
+    helperFunction(combinedDeckB, leftDeck, new_rightDeck);
 	
 }
 
@@ -238,25 +231,29 @@ void shuffle(CardDeck origDeck)
   
   numCombinations = origDeck.size - 1;
   
-  //memory allocation to store possible left and right decks
-  CardDeck * leftDeck; // left deck
-  CardDeck * rightDeck; // right deck
-  
-  leftDeck = malloc(numCombinations * sizeof(CardDeck));
-  rightDeck = malloc(numCombinations * sizeof(CardDeck));
-  
-  //divides the cards
-  divide(origDeck, leftDeck, rightDeck);
-  
-  //send each pair to the interleave function
-  for(count = 0; count < numCombinations; count++)
+  if(numCombinations > 0)
   {
-    interleave(leftDeck[count], rightDeck[count]);
+    //memory allocation to store possible left and right decks
+    CardDeck * leftDeck; // left deck
+    CardDeck * rightDeck; // right deck
+  
+    leftDeck = malloc(numCombinations * sizeof(CardDeck));
+    rightDeck = malloc(numCombinations * sizeof(CardDeck));
+  
+    //divides the cards
+    divide(origDeck, leftDeck, rightDeck);
+  
+    //send each pair to the interleave function
+    for(count = 0; count < numCombinations; count++)
+    {
+      interleave(leftDeck[count], rightDeck[count]);
+    }
+  
+    //release of allocated memory
+    //free(leftDeck);
+    //free(rightDeck);
   }
   
-  //release of allocated memory
-  free(leftDeck);
-  free(rightDeck);
-	
+  
 }
 #endif

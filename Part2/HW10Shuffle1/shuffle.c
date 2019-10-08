@@ -49,6 +49,7 @@ void divide(CardDeck origDeck, CardDeck * leftDeck, CardDeck * rightDeck)
 	leftDeck[count].size = leftIndex; // updates the size of how many cards are in a character array in the left deck
   }
  
+ 
 }
 #endif
 

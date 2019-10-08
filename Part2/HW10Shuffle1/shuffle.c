@@ -149,12 +149,12 @@ void helperFunction(CardDeck combinedDeck, CardDeck leftDeck, CardDeck rightDeck
         return;
     }
 
-    // Make a new left deck for recursive calling
+    // makes a new left deck for recursive calling
     CardDeck new_leftDeck;
     
 	new_leftDeck.size = 0; 
 
-    // Make a copy of combined deck
+    // makes a copy of the combined deck
     CardDeck combinedDeckA; // a copy of the combined deck
     
 	combinedDeckA.size = combinedDeck.size; // sets the size of the new combined deck equal to the orignial combined deck
@@ -179,12 +179,11 @@ void helperFunction(CardDeck combinedDeck, CardDeck leftDeck, CardDeck rightDeck
     helperFunction(combinedDeckA, new_leftDeck, rightDeck);
 
 
-
-    // Make a new right deck for recursive calling
+    // makes a new right deck for recursive calling
     CardDeck new_rightDeck;
     new_rightDeck.size = 0;
     
-    // Make a copy of combined deck
+    // makes a copy of combined deck
     CardDeck combinedDeckB; // copy of the combined deck
     combinedDeckB.size = combinedDeck.size;
 	
@@ -205,7 +204,6 @@ void helperFunction(CardDeck combinedDeck, CardDeck leftDeck, CardDeck rightDeck
     
     // calls the function again for the combined deck
     helperFunction(combinedDeckB, leftDeck, new_rightDeck);
-	
 }
 
 #endif
@@ -251,8 +249,9 @@ void shuffle(CardDeck origDeck)
     }
   
     //release of allocated memory
-    //free(leftDeck);
-    //free(rightDeck);
+    free(leftDeck); // releases memory from the left array
+    free(rightDeck); // releases memory from the right array
+	
   }
   
   

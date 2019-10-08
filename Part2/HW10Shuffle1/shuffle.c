@@ -49,7 +49,6 @@ void divide(CardDeck origDeck, CardDeck * leftDeck, CardDeck * rightDeck)
 	leftDeck[count].size = leftIndex; // updates the size of how many cards are in a character array in the left deck
   }
  
- 
 }
 #endif
 
@@ -131,7 +130,7 @@ void helperFunction(CardDeck combinedDeck, CardDeck leftDeck, CardDeck rightDeck
     }
 	
     // Makes sure the right deck isn't empty
-	else if (rightDeck.size == 0)
+	else if(rightDeck.size == 0)
     {
         // if the deck is empty, adds remaining leftDeck cards
         for(count = 0; count < leftDeck.size; count++)
@@ -253,7 +252,6 @@ void shuffle(CardDeck origDeck)
     free(rightDeck); // releases memory from the right array
 	
   }
-  
-  
+
 }
 #endif

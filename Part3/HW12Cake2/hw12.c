@@ -31,10 +31,31 @@ void printListNode(ListNode * head)
 // return the head of the linked listn
 ListNode * createList(int valn)
 {
+  int count; // keeps track of loop and value for current node
+  
+  ListNode * head = NULL; // beginning of the linked list
+  ListNode * temp; // temporary node  
+  
+  for(count = valn - 1; count >= 0; count--)
+  {
+	// creates temporary nodes //
+	ListNode * tempNode = malloc(sizeof(ListNode));
+	tempNode -> value = count;
+	tempNode -> next = NULL;
+	// creation of node completed
+	
+	temp = tempNode;
+	temp -> next = head;
+	head = temp;
+  }
+  
+  return head; // returns the head of the list
+
 }
 #endif
 
 #ifdef TEST_ELIMINATE
+
 // eliminate the nodes in the linked list
 // starting from the head, move one node at a time and count to valk.
 // eliminate that node, keep counting
@@ -45,12 +66,37 @@ ListNode * createList(int valn)
 // print the values of the nodes to be deleted
 void eliminate(ListNode * head, int valk)
 {
-#ifdef DEBUG
-  // this #ifdef ... #endif should be inside the condition *BEFORE* a
-  // node' value is printed and it is deleted
-  ListNode * todelete = p;
-  printListNode (todelete); 
-#endif
+  ListNode * p; // the current position of the last player deleted
+  ListNode * resume; // the node to continue resuming the game from
+  int count; // used to count the amount of nodes in the list
+  count = 0;
+  
+  p = head; // sets the starting position to the head of the list
+  
+  while(head != NULL)
+  {
+	if(count2 % valk == 0) // checks if count is an iteration of valk
+	{
+	  if(p != NULL)
+	  {
+		resume = p -> next; // keeps a place holder of where the next person starts
+		
+	    #ifdef DEBUG
+        // this #ifdef ... #endif should be inside the condition *BEFORE* a
+        // node' value is printed and it is deleted
+        ListNode * todelete = p;
+        printListNode (todelete); 
+        #endif
+		
+		deleteNode(head, p); // deletes the node from the list
+		p = resume; // sets the position back to the player to start from 
+		count = 1;
+	  }
+	}
+	else if(p != NULL)
+		count += 1;
+  }
+	     
 }
 #endif
 
@@ -71,6 +117,18 @@ void eliminate(ListNode * head, int valk)
 // the head). If this occurs, return the second node of the list.
 ListNode * deleteNode(ListNode * head, ListNode * todelete)
 {
+	
+	
+	
+	
+	
+	
+	
+  free(todelete);
+  
+	
+	
+	
 }
 #endif
 

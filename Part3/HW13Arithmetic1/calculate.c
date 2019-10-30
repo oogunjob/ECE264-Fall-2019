@@ -122,15 +122,30 @@ bool calculate(List * arithlist)
 	p = p -> next; // changes the position of the current node to the next node
   }
 
+
+  
+  // if more than one node left, return false
+  if(arithlist -> head -> next != NULL) // means there are more than one nodes left
+  {
+	return false;
+  }
+  
+  
+  if(arithlist -> head -> next == NULL) // means there is only one number in the list
+  {
+	return true; 
+  }
+
   if(count == 0) // if there are no operators found, false is returned
   {
 	return false;
   }
   
-  // if more than one node left, return false
-  
-
   // if the remaining node is an operator, return false
+  if(isOperator(arithlist -> head -> word) != -1)
+  {
+	  return false;
+  }
 
   // if everything is OK, return true
   return true;

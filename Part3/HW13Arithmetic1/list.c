@@ -46,6 +46,7 @@ bool readList(char * filename, List * arithlist)
 	addNode(arithlist, line); // adds new nodes to the list
   }
   
+  free(line); // frees the allocated space for the line
   fclose(file); // closes the file
   
   return true; 
@@ -75,6 +76,7 @@ void deleteList(List * arithlist)
    } 
   
    arithlist -> head = NULL; // assings the head as NULL
+   free(arithlist); // frees the list
   
    return;
 }

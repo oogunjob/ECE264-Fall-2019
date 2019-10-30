@@ -100,7 +100,6 @@ bool calculate(List * arithlist)
 	  {
 	    return false;
 	  }
-
 	  
 	  if(operation == 0) // addition
 	  {
@@ -120,33 +119,33 @@ bool calculate(List * arithlist)
 		sprintf(p -> word, "%d\n", answer); // converts the product to a character string and puts in place of the operator
 	  }
 		  
-	  rtv = deleteNode(arithlist, first);
-	  rtv = deleteNode(arithlist, second);
+	  rtv = deleteNode(arithlist, first); // deletes the first operand
+	  rtv = deleteNode(arithlist, second); // deletes the second operand
 	}
 	
 	p = p -> next; // changes the position of the current node to the next node
   }
-
-
+  
   
   // if more than one node left, return false
   if(arithlist -> head -> next != NULL) // means there are more than one nodes left
   {
-	return false;
+	return false; // returns false
   }
   
   
   if(arithlist -> head -> next == NULL) // means there is only one number in the list
   {
-	return true; 
+	return true; // returns true
   }
 
   if(count == 0) // if there are no operators found, false is returned
   {
-	return false;
+	return false; // returns true
   }
   
-  answer = isOperator(arithlist -> head -> word);
+  answer = isOperator(arithlist -> head -> word); // determines wheter the head is an operand or not
+  
   // if the remaining node is an operator, return false
   if(answer != -1)
   {

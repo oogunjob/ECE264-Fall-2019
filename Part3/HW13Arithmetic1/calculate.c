@@ -78,7 +78,7 @@ bool calculate(List * arithlist)
   int operation; // the operation being carried out
   bool rtv; // return value
   
-  while(p -> next != NULL)
+  while(p != NULL)
   {
 	operation = isOperator(p -> word); //determines if the word is an operation or not
 	

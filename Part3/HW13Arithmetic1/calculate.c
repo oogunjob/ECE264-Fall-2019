@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "calculate.h"
 
 // DO NOT MODIFY FROM HERE --->>>
@@ -13,18 +14,20 @@ const int Operations[] = {'+', '-', '*'};
 // return -1 if the word is not an operator
 // return 0 if the word contains '+'
 // return 1 if the word contains '-'
-// ...
+// return 2 if the word contains '*'
+
 int isOperator(char * word)
 {
   int ind;
   int numop = sizeof(Operations) / sizeof(int);
   for (ind = 0; ind < numop; ind ++)
-    {
-      if (strchr(word, Operations[ind]) != NULL)
+  {
+    char * loc = strchr(word, Operations[ind]);
+    if (loc != NULL && !isdigit(loc[1]))
 	{
 	  return ind;
 	}
-    }
+  }
   return -1;
 }
 // <<<--- UNTIL HERE
@@ -42,10 +45,15 @@ bool calculate(List * arithlist)
     {
       return true;
     }
+	
   if ((arithlist -> head) == NULL)
     {
       return true;
     }
+	
+  // if theres only one number
+  // if there are no operators
+  
   // go through the list until there is only node in the list
   // find the next operator
   // If no operator can be found, return false
@@ -60,8 +68,49 @@ bool calculate(List * arithlist)
   // After going through the entire list and performing the operations,
   //     the list should have exactly one node left. If this is not
   //     true, return false
-  // If the input is valud, return true
-
+  // If the input is valid, return true
+  
+  ListNode * p = arithlist -> head; //position of node in the loop (starts from head)
+  ListNode * first; // the first number (previous previous)
+  ListNode * second; // the second number (previous)
+  
+  int answer; // the answer after the operation has been applied to the two operands
+  int operation; // the operation being carried out
+  bool rtv; // return value
+  
+  while(p -> next != NULL)
+  {
+	operation = isOperator(p -> word); //determines if the word is an operation or not
+	
+	if(operation != -1) // if the word was an operator, finds the two operands and performs calculation based on type of operator
+	{
+	  first = p -> prev -> prev; // finds the first operand
+	  second = p -> prev; // finds the second operand
+	  
+	  if(operation == 0) // addition
+	  {
+		answer = atol(first -> word) + atol(second -> word); // finds the sum of the two operands
+		sprintf(p -> word, "%d\n", answer); // converts the sum to a character string and puts in place of the operator
+	  }
+	  
+	  else if(operation == 1) // subtraction
+	  {
+		answer = atol(first -> word) - atol(second -> word); // finds the difference of the two operands
+		sprintf(p -> word, "%d\n", answer); // converts the difference to a character string and puts in place of the operator
+	  }
+	  
+	  else if(operation == 2) // multiplication
+	  {
+		answer = atol(first -> word) * atol(second -> word); // finds the product of the two operands
+		sprintf(p -> word, "%d\n", answer); // converts the product to a character string and puts in place of the operator
+	  }
+		  
+	  rtv = deleteNode(arithlist, first);
+	  rtv = deleteNode(arithlist, second);
+	}
+	
+	p = p -> next; // changes the position of the current node to the next node
+  }
 
   
   // if more than one node left, return false

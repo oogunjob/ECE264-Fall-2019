@@ -94,6 +94,11 @@ void deleteList(List * arithlist)
 // insert the ListNode to the list
 void addNode(List * arithlist, char * word)
 {
+  if(arithlist == NULL) //if arithlist is NULL, do nothing
+  {
+	return;
+  }
+	
   ListNode * newNode = malloc(sizeof(ListNode)); // creates memory for a new node
   
   strcpy(newNode -> word, word); //copies the passed word into the new node

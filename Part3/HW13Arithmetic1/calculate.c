@@ -88,14 +88,19 @@ bool calculate(List * arithlist)
 	if(operation != -1) // if the word was an operator, finds the two operands and performs calculation based on type of operator
 	{
 	  count++;
+	  
+	  if(p == arithlist -> head) // if the first node is an operator, false is returned because it is invalid
+		  return false;
+	  
 	  first = p -> prev -> prev; // finds the first operand
 	  second = p -> prev; // finds the second operand
 	  
-		// checks if the two operands can be found, if not returns false
-	    if(first == NULL || second == NULL) 
-		{
-	      return false;
-		}
+	  // checks if the two operands can be found, if not returns false
+	  if(first == NULL || second == NULL) 
+	  {
+	    return false;
+	  }
+
 	  
 	  if(operation == 0) // addition
 	  {
@@ -141,10 +146,11 @@ bool calculate(List * arithlist)
 	return false;
   }
   
+  answer = isOperator(arithlist -> head -> word);
   // if the remaining node is an operator, return false
-  if(isOperator(arithlist -> head -> word) != -1)
+  if(answer != -1)
   {
-	  return false;
+	return false;
   }
 
   // if everything is OK, return true

@@ -40,7 +40,7 @@ int isOperator(char * word)
 // if arithlist -> head is NULL, return true
 // if the input list is invalid, return false
 bool calculate(List * arithlist)
-{
+{	
   if (arithlist == NULL)
     {
       return true;
@@ -77,6 +77,9 @@ bool calculate(List * arithlist)
   int answer; // the answer after the operation has been applied to the two operands
   int operation; // the operation being carried out
   bool rtv; // return value
+  int count; // number of times an operator was found
+  
+  count = 0; // initializes the amount of times an operator was found
   
   while(p != NULL)
   {
@@ -84,8 +87,15 @@ bool calculate(List * arithlist)
 	
 	if(operation != -1) // if the word was an operator, finds the two operands and performs calculation based on type of operator
 	{
+	  count++;
 	  first = p -> prev -> prev; // finds the first operand
 	  second = p -> prev; // finds the second operand
+	  
+		// checks if the two operands can be found, if not returns false
+	    if(first == NULL || second == NULL) 
+		{
+	      return false;
+		}
 	  
 	  if(operation == 0) // addition
 	  {
@@ -112,8 +122,13 @@ bool calculate(List * arithlist)
 	p = p -> next; // changes the position of the current node to the next node
   }
 
+  if(count == 0) // if there are no operators found, false is returned
+  {
+	return false;
+  }
   
   // if more than one node left, return false
+  
 
   // if the remaining node is an operator, return false
 

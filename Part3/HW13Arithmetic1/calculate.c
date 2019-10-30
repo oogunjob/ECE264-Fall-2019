@@ -50,9 +50,6 @@ bool calculate(List * arithlist)
     {
       return true;
     }
-	
-  // if theres only one number
-  // if there are no operators
   
   // go through the list until there is only node in the list
   // find the next operator
@@ -87,7 +84,7 @@ bool calculate(List * arithlist)
 	
 	if(operation != -1) // if the word was an operator, finds the two operands and performs calculation based on type of operator
 	{
-	  count++;
+	  count++; // increases number of times and operator is found
 	  
 	  if(p == arithlist -> head) // if the first node is an operator, false is returned because it is invalid
 		  return false;
@@ -127,26 +124,30 @@ bool calculate(List * arithlist)
   }
   
   
-  // if more than one node left, return false
+  /* CONDITIONAL STATEMENTS */
+  
+  
+  //1.  if more than one node left, return false
   if(arithlist -> head -> next != NULL) // means there are more than one nodes left
   {
 	return false; // returns false
   }
   
-  
-  if(arithlist -> head -> next == NULL) // means there is only one number in the list
+  //2.  if there is only one number in the list, return true
+  if(arithlist -> head -> next == NULL)
   {
 	return true; // returns true
   }
 
-  if(count == 0) // if there are no operators found, false is returned
+  //3. if there are no operators found, return false
+  if(count == 0) 
   {
 	return false; // returns true
   }
   
-  answer = isOperator(arithlist -> head -> word); // determines wheter the head is an operand or not
+  answer = isOperator(arithlist -> head -> word); // determines wheter the remaining node is an operator or not
   
-  // if the remaining node is an operator, return false
+  //4.  if the remaining node is an operator, return false
   if(answer != -1)
   {
 	return false;

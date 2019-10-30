@@ -33,6 +33,7 @@ bool readList(char * filename, List * arithlist)
 	return false; // returns false if the list or file is NULL
   }
   
+  // checks the the line is shorter than word length
   while(fgets(line, WORDLENGTH, file) != NULL)
   {
 	if(line[strlen(line) - 1] != '\n')

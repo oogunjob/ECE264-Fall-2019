@@ -77,8 +77,7 @@ bool convert(List * arithlist)
   
   /* CONVERSION FUNCTION BEGINS */
   
-  int i; // counter variable
-  int j; // counter variable
+  int count; // counter variable
   
   char word; // the number or operator in the linked list
   char rtv; // return value
@@ -93,10 +92,10 @@ bool convert(List * arithlist)
 	
   infixExpression[size - 1] = ")"; // adds ')' to the end of the infix array
 
-  i = 0;
+  count = 0;
   p = arithlist -> head; // reinitializes p to start at the head of the list 
 	
-  word = infixExpression[i]; // sets the word equal to the first word in the list
+  word = infixExpression[count]; // sets the word equal to the first word in the list
   // CHECK THAT THE FIRST WORD ISN'T AN OPERATOR
   
   while(word != '\0') // runs until the NULL terminating character
@@ -120,49 +119,35 @@ bool convert(List * arithlist)
 	  rtv = pop(stack, &element);
 	  while(is_operator(rtv) != -1 && precedence(rtv) >= precedence(word))
 	  {
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-			// USE THE LINKED LIST FOR THIS PART
-			// JUST CHANGE THE POSITION
-				postfix_exp[j] = x;                  /* so pop all higher precendence operator and */
-				j++;
-				x = pop();                       /* add them to postfix expresion */
-			}
-			push(x);
-			/* because just above while loop will terminate we have
-			oppped one extra word
-			for which condition fails and loop terminates, so that one*/
-
-			push(word);                 /* push current oprerator symbol onto stack */
-		}
-		
-		
+	    p -> word = rtv;
+		p = p -> next;
+		rtv = pop(stack, &element);                       /* add them to postfix expresion */
+	  }
+	  
+	  push(rtv, stack, &element, size);
+	  push(word, stack, &element, size); // pushes the operator onto the stack
 	}
+	
+	// checks if the word is ')'
+	else if(word == ')') 
+	{
+	  rtv = pop(stack, &element);
+	  while(rtv != '(')
+	  {
+		p -> word = rtv
+		p = p -> next;
+		rtv = pop(stack, &element);
+	  }
+	}
+	
+	count++; // increments to the next word in the character array
+	word = infixExpression[count]; // changes to the next word
+  }
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-
   free(InfixExpression);
   free(p);
-  
-  
-  
+ 
+ 
   return true;
 }
 // copies the linked list into the character array
@@ -232,7 +217,5 @@ int precedence(char operator)
   }
 
 }
-
-
 
 #endif

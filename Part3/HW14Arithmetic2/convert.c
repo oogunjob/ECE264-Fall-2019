@@ -57,7 +57,7 @@ bool convert(List * arithlist)
     }
 	
   int size; // the size of the linked list
-  count = 0;
+  size = 0;
   
   ListNode * p; // the current position in the list
   p = arithlist -> head;
@@ -65,24 +65,32 @@ bool convert(List * arithlist)
   // counts the number of nodes in the list
   while(p != NULL)
   {
-	size++;
-	p = p -> next;  
+	size++; // adds to the size
+	p = p -> next; // changes to the next position
   }
   
   char * InfixExpression; // creates a character array that will store the words in the linked list
-  infixExpression = malloc(sizeof(char) * size); // creates space for the character array
+  InfixExpression = malloc(sizeof(char) * (size + 1)); // creates space for the character array
   
-  copyList(infixExpression, arithlist); // copies the contents of the linked list to the character array
+  copyList(InfixExpression, arithlist); // copies the contents of the linked list to the character array
   
   
   /* CONVERSION FUNCTION BEGINS */
   
   int count; // counter variable
-  
   char word; // the number or operator in the linked list
+  char * wordPointer;
+  char * rtvPointer;
   char rtv; // return value
   int element; // keeps track of the element in the stack
-  char * stack; // the stack that hold operations * NEED TO MALLOC THE SIZE
+  char * stack; // the stack that hold operations
+  
+  int answer;
+  int precedenceRTV;
+  int precedenceWORD;
+  
+  wordPointer = &word;
+  rtvPointer = &rtv;
   
   stack = malloc(sizeof(char) * (size + 1)); // creates space to hold the stack
   
@@ -90,38 +98,49 @@ bool convert(List * arithlist)
 
   push('(', stack, &element, size); // pushes '(' to the stack
 	
-  infixExpression[size - 1] = ")"; // adds ')' to the end of the infix array
+  InfixExpression[size] = ')'; // adds ')' to the end of the infix array
 
   count = 0;
   p = arithlist -> head; // reinitializes p to start at the head of the list 
 	
-  word = infixExpression[count]; // sets the word equal to the first word in the list
+  word = InfixExpression[count]; // sets the word equal to the first word in the list
   // CHECK THAT THE FIRST WORD ISN'T AN OPERATOR
   
   while(word != '\0') // runs until the NULL terminating character
   {
 	// checks if the word is '('
-	if(isOperator(word) == 3) 
+	answer = isOperator(wordPointer);
+	if(answer == 3) 
 	{
-	  push(word, &element, stack);
+	  push(word, stack, &element, size);
 	}
 	
 	// checks if the word is a number
-	else if(isOperator(word) == -1) 
+	else if(answer == -1) 
     {
-	  p -> word = word;
+	  strcpy(p -> word, wordPointer);
 	  p = p -> next;
 	}
 	
 	// checks if the word is an operator
-	else if(isOperator(word) == 0 || isOperator(word) == 1 || isOperator(word) == 2)
+	else if(answer == 0 || answer == 1 || answer == 2)
     {
 	  rtv = pop(stack, &element);
-	  while(is_operator(rtv) != -1 && precedence(rtv) >= precedence(word))
+	  
+	  answer = isOperator(rtvPointer);
+	  precedenceRTV = precedence(rtv);
+	  precedenceWORD = precedence(word);
+	  
+	  while(answer != -1 && precedence(rtv) >= precedence(word))
 	  {
-	    p -> word = rtv;
+	    strcpy(p -> word, rtvPointer);
 		p = p -> next;
-		rtv = pop(stack, &element);                       /* add them to postfix expresion */
+		rtv = pop(stack, &element);
+		
+		answer = isOperator(rtvPointer);
+	    precedenceRTV = precedence(rtv);
+	    precedenceWORD = precedence(word);
+		
 	  }
 	  
 	  push(rtv, stack, &element, size);
@@ -134,14 +153,14 @@ bool convert(List * arithlist)
 	  rtv = pop(stack, &element);
 	  while(rtv != '(')
 	  {
-		p -> word = rtv
+		strcpy(p -> word, rtvPointer);
 		p = p -> next;
 		rtv = pop(stack, &element);
 	  }
 	}
 	
 	count++; // increments to the next word in the character array
-	word = infixExpression[count]; // changes to the next word
+	word = InfixExpression[count]; // changes to the next word
   }
   
   free(InfixExpression);
@@ -170,17 +189,17 @@ void copyList(char * characterList, List * arithlist)
 }
 
 // pushes words to the stack
-void push(char word, char * stack, int * element, size)
+void push(char word, char * stack, int * element, int size)
 {
 	if(*element >= size - 1)
 	{
-	  return false;
+	  return;
 	}
 	
 	else
 	{
-	  *element += 1;
-	  stack[element] = word;
+	  *element += 1; // increments the value of the element
+	  stack[*element] = word; 
 	}
 	
 	return;
@@ -192,7 +211,7 @@ char pop(char * stack, int * element)
   char item; // the item being returned
 
   item = stack[*element];
-  *element--;
+  *element -= 1;
 	
   return item; // returns the item
 
@@ -201,16 +220,19 @@ char pop(char * stack, int * element)
 // determines the precedence of the operator being used
 int precedence(char operator)
 {
-  if(operator == '*') // checks for multiplication operation
+  // checks for multiplication operation
+  if(operator == '*') 
   {
 	return 2;
   }
-	
-  else if(operator == '+' || operator == '-') // checks for addition or subtraction
+
+  // checks for addition or subtraction
+  else if(operator == '+' || operator == '-') 
   {
 	return 1;
   }
 	
+  // checks for numbers or paranthesis	
   else 
   {
     return 0;

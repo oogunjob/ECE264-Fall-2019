@@ -40,10 +40,9 @@ int isOperator(char * word)
 // ***
 #ifdef TEST_CONVERT
 void copyList(char * array, List * arithlist);
-void push(char word, char * stack, int * element, int size);
-char pop(char * stack, int * element);
+void push(char word, char stack[], int * element, int size);
+char pop(char stack[], int * element);
 int precedence(char operator);
-
 
 bool convert(List * arithlist)
 {
@@ -60,7 +59,7 @@ bool convert(List * arithlist)
   size = 0;
   
   ListNode * p; // the current position in the list
-  p = arithlist -> head;
+  p = arithlist -> head; // p points the beginning of the list
   
   // counts the number of characters in the list
   while(p != NULL)
@@ -68,14 +67,12 @@ bool convert(List * arithlist)
 	size += strlen(p -> word) - 1;
 	p = p -> next; // changes to the next position
   }
-  
 
-  char * stack; // the stack that will hold operations
-  stack = malloc(sizeof(char) * (size + 1));
-
-  
+  char stack[10000]; // the stack that will hold operations
   char * InfixExpression; // creates a character array that will store the words in the linked list
-  InfixExpression = malloc(sizeof(char) * (size + 1)); // creates space for the character array
+  
+  
+  InfixExpression = malloc(sizeof(char) * (size + 1)); 
   
   copyList(InfixExpression, arithlist); // copies the contents of the linked list to the character array
   
@@ -94,6 +91,8 @@ bool convert(List * arithlist)
   int precedenceWORD;
   
   wordPointer = &word;
+  
+  
   rtvPointer = &rtv;
   
   element = -1; // initializes element as -1
@@ -101,42 +100,38 @@ bool convert(List * arithlist)
   push('(', stack, &element, size); // pushes '(' to the stack
 	
   InfixExpression[size] = ')'; // adds ')' to the end of the infix array
-  printf("The third expression is %c", InfixExpression[3]);
 
   count = 0;
   p = arithlist -> head; // reinitializes p to start at the head of the list 
-	
+  
   word = InfixExpression[count]; // sets the word equal to the first word in the list
   
-  //TESTING (DELETE ME)
-  //printf("%c\n", word); //prints the word
-  strcpy(p -> word, wordPointer);
-  //printf("The copied character to the string %c\n", *p -> word);
-  // (DELETE ME)
-  int length; // counter for the length of the string
+  int temp; // the temporary index of the array
   
-  for(length = 0; length <= size; length++) // runs until the NULL terminating character
+  while(word != '\0') // runs until the NULL terminating character
   {
-	// checks if the word is '('
-	//printf("\nThe loop was entered");
-	//printf("\nThe current word is: %c\n", word);
+	printf("The current word is %c.\n", word);
+	answer = isOperator(wordPointer); // determines what the current word is
 	
-	answer = isOperator(wordPointer);
-	
-	//printf("\nThe answer is %d", answer);
-	if(answer == 3) 
+	if(answer == 3 && !(isdigit(word))) 
 	{
-	  //printf("The answer is %d", answer);
 	  push(word, stack, &element, size);
 	}
 	
 	// checks if the word is a number
-	else if(answer == -1) 
+	else if(isdigit(word)) 
     {
-	  sprintf(p -> word, "%c\n", word);
-	  printf("\nThe item added the postfix expression was %c.\n", *p -> word);
-	  // NEED TO FIX LATER FOR IF THE DIGIT IS 2 places
-	  //printf("\nThe word copied was %c\n", *p -> word);
+	  temp = 0;
+	  
+	  while(isdigit(word))
+	  {
+		p -> word[temp++] = word;
+		word = InfixExpression[++count];
+	  }
+	  
+	  temp++;
+	  count--;
+	  
 	  p = p -> next;
 	}
 	
@@ -151,8 +146,8 @@ bool convert(List * arithlist)
 	  
 	  while(answer != -1 && precedenceRTV >= precedenceWORD)
 	  {
-	    sprintf(p -> word, "%c\n", rtv);
-		printf("\nThe word copied was %c\n", *p -> word);
+		// ISSUE OCCURS HERE
+		p -> word[0] = rtv;
 		p = p -> next;
 		rtv = pop(stack, &element);
 		
@@ -167,15 +162,14 @@ bool convert(List * arithlist)
 	}
 	
 	// checks if the word is ')'
-	else if(word == ')') 
+	else if(answer == 4) 
 	{
-	  printf("The current item is: %c", word);
 	  rtv = pop(stack, &element);
 	  while(rtv != '(')
 	  {
-		printf("This loop was entered..\n");
-		sprintf(p -> word, "%c\n", rtv);
-		printf("\nThe item added the postfix expression was %c.\n", *p -> word);
+		// ISSUE OCCURS HERE
+		p -> word[0] = rtv;
+		printf("The item added to the postfix array is: %c\n", *p -> word);
 		p = p -> next;
 		rtv = pop(stack, &element);
 	  }
@@ -185,10 +179,9 @@ bool convert(List * arithlist)
 	word = InfixExpression[count]; // changes to the next word
   }
   
+  
   free(InfixExpression);
-  free(p);
  
-   
   return true;
 }
 // copies the linked list into the character array
@@ -210,25 +203,13 @@ void copyList(char * array, List * arithlist)
     }
 
     }
-  array[count++] = 0;
+  array[count++] = '\0';
   
-  /*
-  int num; 
-  num = strlen(array);
-  
-  for(count = 0; count < num; count++)
-  {
-	printf("%c\n", array[count]);
-  }
-  */
-  
-  
-
   return;	
 }
 
 // pushes words to the stack
-void push(char word, char * stack, int * element, int size)
+void push(char word, char stack[], int * element, int size)
 {
 	if(*element >= size - 1)
 	{
@@ -245,7 +226,7 @@ void push(char word, char * stack, int * element, int size)
 }
 
 // returns the item back in the stack
-char pop(char * stack, int * element)
+char pop(char stack[], int * element)
 {
   char item; // the item being returned
 

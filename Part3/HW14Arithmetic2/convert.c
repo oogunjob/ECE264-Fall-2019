@@ -222,6 +222,12 @@ bool convert(List * arithlist)
   ListNode * resume;
   bool whoCares;
   
+  if(p == (NULL))
+  {
+	  free(InfixExpression);
+	  return true;
+  }
+  
   arithlist -> tail = p -> prev;
   
   p = arithlist -> tail -> next;

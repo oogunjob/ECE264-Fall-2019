@@ -112,7 +112,6 @@ bool convert(List * arithlist)
 	if((answer == 3 || word == '(') && !(isdigit(word))) 
 	{
 	  push(word, stack, &element, size);
-	  //printf("Push is called! (push(word))\n");
 	}
 	
 	// checks if the word is a number
@@ -145,6 +144,8 @@ bool convert(List * arithlist)
 	  p -> word[temp++] = '\n';
 	  p -> word[temp] = '\0';
 	  
+	  //printf("The word added to the list node: %s", p -> word);
+	  
 	  count--;
 	  
 	  p = p -> next;
@@ -157,12 +158,7 @@ bool convert(List * arithlist)
 	  
 	  precedenceRTV = precedence(rtv);
 	  precedenceWORD = precedence(word);
-	  
-	  //printf("THE FIRST RTV is: %c\n", rtv);
-	  //printf("The FIRST precedence of RTV: %d\n", precedenceRTV);
-	  //printf("The FIRST precedence of Word: %d\n", precedenceWORD);
-	  
-	  
+	 
 	  answer = isdigit(rtv);
 	  
 	  if(answer != 0)
@@ -177,18 +173,13 @@ bool convert(List * arithlist)
 	  
 	  while(answer == -1 && precedenceRTV >= precedenceWORD)
 	  {
-		// ISSUE OCCURS HERE
-		// THE LOOP WAS NOT ENTERED
 		p -> word[0] = rtv;
-		//printf("This loop was entered\n");
-		//printf("The word added to the linked list is %c\n", *p -> word);
+		//printf("The word added to the list node: %s", p -> word);
 		
 		p = p -> next;
 		rtv = pop(stack, &element);
 		
 	    precedenceRTV = precedence(rtv);
-		//printf("The precedence of RTV: %d\n", precedenceRTV);
-	    //printf("The precedence of Word: %d\n", precedenceWORD);
 		
 		answer = isdigit(rtv);
 		if(answer != 0)
@@ -203,9 +194,7 @@ bool convert(List * arithlist)
 	  }
 	  
 	  push(rtv, stack, &element, size);
-	  //printf("Push is called! (push(rtv))\n");
 	  push(word, stack, &element, size); // pushes the operator onto the stack
-	  //printf("THIS 208 Push is called! (push(word))\n");
 	}
 	
 	// checks if the word is ')'
@@ -214,14 +203,14 @@ bool convert(List * arithlist)
 	  rtv = pop(stack, &element);
 	  while(rtv != '(')
 	  {
-		//printf("The current stack is: %s\n", stack);
 		p -> word[0] = rtv;
 		p -> word[1] = '\n';
 		p -> word[2] = '\0';
 		
+		//printf("The word added to the list node: %s", p -> word);
+		
 		p = p -> next;
 		rtv = pop(stack, &element);
-		//printf("The new RTV is: %c\n", rtv);
 	  }
 	  
 	}
@@ -230,6 +219,19 @@ bool convert(List * arithlist)
 	word = InfixExpression[count]; // changes to the next word
   }
   
+  ListNode * resume;
+  bool whoCares;
+  
+  arithlist -> tail = p -> prev;
+  
+  p = arithlist -> tail -> next;
+  
+  while(p != NULL)
+  {
+	resume = p -> next;
+	whoCares = deleteNode(arithlist, p);
+	p = resume;
+  }
   
   free(InfixExpression);
  
@@ -263,7 +265,6 @@ void copyList(char * array, List * arithlist)
 void push(char word, char stack[], int * element, int size)
 {
 	*element += 1; // increments the value of the element
-	//printf("The value of element in push is %d\n", *element);
 	stack[*element] = word; 
 	
 	return;
@@ -274,7 +275,6 @@ char pop(char stack[], int * element)
 {
   char item; // the item being returned
   
-  //printf("Element is %d\n", *element);
   item = stack[*element];
   *element = *element - 1;
 	

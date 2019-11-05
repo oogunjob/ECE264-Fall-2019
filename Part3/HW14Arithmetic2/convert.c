@@ -132,10 +132,8 @@ bool convert(List * arithlist)
 	  
 	  while(check)
 	  {
-		printf("Current node in list is: %s\n", p -> word);
 		p -> word[temp++] = word;
 		word = InfixExpression[++count];
-		printf("The word added to the index is %c\n", p -> word[temp - 1]);
 		
 		check = isdigit(word);
 		
@@ -204,8 +202,10 @@ bool convert(List * arithlist)
 	  rtv = pop(stack, &element);
 	  while(rtv != '(')
 	  {
+		
 		p -> word[0] = rtv;
-		printf("The word added to the linked list is %c\n", *p -> word); // DELETE ME
+		p -> word[1] = '\n';
+		//p -> word[2] = '\0';
 		p = p -> next;
 		rtv = pop(stack, &element);
 		

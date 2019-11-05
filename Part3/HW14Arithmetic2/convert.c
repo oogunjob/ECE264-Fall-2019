@@ -15,10 +15,7 @@ const int Operations[] = {'+', '-', '*', '(', ')'};
 // return -1 if the word is not an operator
 // return 0 if the word contains '+'
 // return 1 if the word contains '-'
-// return 2 if the word contains '*'
-// return 3 if the word contains '('
-// return 4 if the word contains ')'
-
+// ...
 int isOperator(char * word)
 {
   int ind;
@@ -142,11 +139,11 @@ bool convert(List * arithlist)
 	
 	    else
 	      check = 0;	  
-	    
 	  }
 	  
-	  p -> word[temp] = '\n';
-
+	  p -> word[temp++] = '\n';
+	  p -> word[temp] = '\0';
+	  
 	  count--;
 	  
 	  p = p -> next;
@@ -174,7 +171,12 @@ bool convert(List * arithlist)
 	  
 	  while(answer == -1 && precedenceRTV >= precedenceWORD)
 	  {
+		// ISSUE OCCURS HERE
+		// THE LOOP WAS NOT ENTERED
 		p -> word[0] = rtv;
+		printf("This loop was entered\n");
+		printf("The word added to the linked list is %c\n", *p -> word);
+		
 		p = p -> next;
 		rtv = pop(stack, &element);
 		
@@ -202,14 +204,16 @@ bool convert(List * arithlist)
 	  rtv = pop(stack, &element);
 	  while(rtv != '(')
 	  {
-		
+		printf("The current stack is: %s\n", stack);
 		p -> word[0] = rtv;
 		p -> word[1] = '\n';
-		//p -> word[2] = '\0';
+		p -> word[2] = '\0';
+		
 		p = p -> next;
 		rtv = pop(stack, &element);
-		
+		printf("The new RTV is: %c\n", rtv);
 	  }
+	  
 	}
 	
 	count++; // increments to the next word in the character array

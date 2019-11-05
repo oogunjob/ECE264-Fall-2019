@@ -90,9 +90,7 @@ bool convert(List * arithlist)
   int precedenceRTV;
   int precedenceWORD;
   
-  wordPointer = &word;
-  
-  
+  wordPointer = &word;  
   rtvPointer = &rtv;
   
   element = -1; // initializes element as -1
@@ -107,10 +105,11 @@ bool convert(List * arithlist)
   word = InfixExpression[count]; // sets the word equal to the first word in the list
   
   int temp; // the temporary index of the array
+  int check;
+  
   
   while(word != '\0') // runs until the NULL terminating character
   {
-	printf("The current word is %c.\n", word);
 	answer = isOperator(wordPointer); // determines what the current word is
 	
 	if(answer == 3 && !(isdigit(word))) 
@@ -121,40 +120,78 @@ bool convert(List * arithlist)
 	// checks if the word is a number
 	else if(isdigit(word)) 
     {
+	  check = isdigit(word);
+	  
+	  if(word != 0)
+	    check = 1;
+	
+	  else
+	    check = 0;
+			
 	  temp = 0;
 	  
-	  while(isdigit(word))
+	  while(check)
 	  {
+		printf("Current node in list is: %s\n", p -> word);
 		p -> word[temp++] = word;
 		word = InfixExpression[++count];
+		printf("The word added to the index is %c\n", p -> word[temp - 1]);
+		
+		check = isdigit(word);
+		
+		if(check != 0)
+	      check = 1;
+	
+	    else
+	      check = 0;	  
+	    
 	  }
 	  
-	  temp++;
+	  p -> word[temp] = '\n';
+
 	  count--;
 	  
 	  p = p -> next;
 	}
 	
 	// checks if the word is an operator
-	else if(answer == 0 || answer == 1 || answer == 2)
+	else if((answer == 0 || answer == 1 || answer == 2) && (word != ')'))
     {  
 	  rtv = pop(stack, &element);
 	  
-	  answer = isOperator(rtvPointer);
 	  precedenceRTV = precedence(rtv);
 	  precedenceWORD = precedence(word);
 	  
-	  while(answer != -1 && precedenceRTV >= precedenceWORD)
+	  answer = isdigit(rtv);
+	  
+	  if(answer != 0)
 	  {
-		// ISSUE OCCURS HERE
+		answer = -1;
+	  }
+	 
+	  else
+	  {
+		answer = 0;
+	  }
+	  
+	  while(answer == -1 && precedenceRTV >= precedenceWORD)
+	  {
 		p -> word[0] = rtv;
 		p = p -> next;
 		rtv = pop(stack, &element);
 		
-		answer = isOperator(rtvPointer);
 	    precedenceRTV = precedence(rtv);
-	    precedenceWORD = precedence(word);
-		
+	    
+		answer = isdigit(rtv);
+		if(answer != 0)
+		{
+		  answer = -1;
+        }
+		 
+		else
+		{
+	      answer = 0;
+		}
 	  }
 	  
 	  push(rtv, stack, &element, size);
@@ -162,16 +199,16 @@ bool convert(List * arithlist)
 	}
 	
 	// checks if the word is ')'
-	else if(answer == 4) 
-	{
+	else if(word == ')') 
+	{ 
 	  rtv = pop(stack, &element);
 	  while(rtv != '(')
 	  {
-		// ISSUE OCCURS HERE
 		p -> word[0] = rtv;
-		printf("The item added to the postfix array is: %c\n", *p -> word);
+		printf("The word added to the linked list is %c\n", *p -> word); // DELETE ME
 		p = p -> next;
 		rtv = pop(stack, &element);
+		
 	  }
 	}
 	
@@ -240,6 +277,7 @@ char pop(char stack[], int * element)
 // determines the precedence of the operator being used
 int precedence(char operator)
 {
+
   // checks for multiplication operation
   if(operator == '*') 
   {

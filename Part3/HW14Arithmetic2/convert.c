@@ -236,11 +236,30 @@ bool convert(List * arithlist)
   }
   
   if(!strcmp(arithlist -> tail -> word, arithlist -> tail -> prev -> word))
-  {
+  { 
 	deleteNode(arithlist, arithlist -> tail -> prev);
+	free(InfixExpression);
+	return true;
+  }
+  
+  /*
+  p = arithlist -> head;
+  while(p)
+  {
+	printf("Node is %s\n", p -> word);
+	p = p -> next;
+  }*/
+  
+  if(arithlist -> tail -> word[0] == '*')
+  {
+    resume = arithlist -> tail -> prev;
+    free(arithlist -> tail);
+    resume -> next = NULL;
+    arithlist -> tail = resume;
   }
   
   free(InfixExpression);
+  
  
   return true;
 }

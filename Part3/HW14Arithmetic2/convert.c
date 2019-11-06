@@ -69,7 +69,7 @@ bool convert(List * arithlist)
   char * InfixExpression; // creates a character array that will store the words in the linked list
   
   
-  InfixExpression = malloc(sizeof(char) * (size + 100)); 
+  InfixExpression = malloc(sizeof(char) * (size + 10000)); 
   
   copyList(InfixExpression, arithlist); // copies the contents of the linked list to the character array
   
@@ -104,6 +104,7 @@ bool convert(List * arithlist)
   int temp; // the temporary index of the array
   int check;
   
+  //int index = 0;
   
   while(word != '\0') // runs until the NULL terminating character
   {
@@ -235,31 +236,7 @@ bool convert(List * arithlist)
 	p = resume;
   }
   
-  if(!strcmp(arithlist -> tail -> word, arithlist -> tail -> prev -> word))
-  { 
-	deleteNode(arithlist, arithlist -> tail -> prev);
-	free(InfixExpression);
-	return true;
-  }
-  
-  /*
-  p = arithlist -> head;
-  while(p)
-  {
-	printf("Node is %s\n", p -> word);
-	p = p -> next;
-  }*/
-  
-  if(arithlist -> tail -> word[0] == '*')
-  {
-    resume = arithlist -> tail -> prev;
-    free(arithlist -> tail);
-    resume -> next = NULL;
-    arithlist -> tail = resume;
-  }
-  
   free(InfixExpression);
-  
  
   return true;
 }

@@ -69,7 +69,7 @@ bool convert(List * arithlist)
   char * InfixExpression; // creates a character array that will store the words in the linked list
   
   
-  InfixExpression = malloc(sizeof(char) * (size + 1)); 
+  InfixExpression = malloc(sizeof(char) * (size + 100)); 
   
   copyList(InfixExpression, arithlist); // copies the contents of the linked list to the character array
   
@@ -83,7 +83,7 @@ bool convert(List * arithlist)
   char rtv; // return value
   int element; // keeps track of the element in the stack
   
-  int answer;
+  int answer = 0;
   int precedenceRTV;
   int precedenceWORD;
   
@@ -144,7 +144,6 @@ bool convert(List * arithlist)
 	  p -> word[temp++] = '\n';
 	  p -> word[temp] = '\0';
 	  
-	  //printf("The word added to the list node: %s", p -> word);
 	  
 	  count--;
 	  
@@ -156,12 +155,11 @@ bool convert(List * arithlist)
     {  
 	  rtv = pop(stack, &element);
 	  
+	  
 	  precedenceRTV = precedence(rtv);
 	  precedenceWORD = precedence(word);
-	 
-	  answer = isdigit(rtv);
 	  
-	  if(answer != 0)
+	  if(rtv == '+' || rtv == '-' || rtv == '*')
 	  {
 		answer = -1;
 	  }
@@ -174,23 +172,22 @@ bool convert(List * arithlist)
 	  while(answer == -1 && precedenceRTV >= precedenceWORD)
 	  {
 		p -> word[0] = rtv;
-		//printf("The word added to the list node: %s", p -> word);
 		
 		p = p -> next;
 		rtv = pop(stack, &element);
 		
 	    precedenceRTV = precedence(rtv);
 		
-		answer = isdigit(rtv);
-		if(answer != 0)
-		{
+		
+	    if(rtv == '+' || rtv == '-' || rtv == '*')
+	    {
 		  answer = -1;
-        }
-		 
-		else
-		{
-	      answer = 0;
-		}
+	    }
+	 
+	    else
+	    {
+		  answer = 0;
+	    }
 	  }
 	  
 	  push(rtv, stack, &element, size);
@@ -207,8 +204,7 @@ bool convert(List * arithlist)
 		p -> word[1] = '\n';
 		p -> word[2] = '\0';
 		
-		//printf("The word added to the list node: %s", p -> word);
-		
+	
 		p = p -> next;
 		rtv = pop(stack, &element);
 	  }

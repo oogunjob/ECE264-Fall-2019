@@ -235,6 +235,11 @@ bool convert(List * arithlist)
 	p = resume;
   }
   
+  if(!strcmp(arithlist -> tail -> word, arithlist -> tail -> prev -> word))
+  {
+	deleteNode(arithlist, arithlist -> tail -> prev);
+  }
+  
   free(InfixExpression);
  
   return true;

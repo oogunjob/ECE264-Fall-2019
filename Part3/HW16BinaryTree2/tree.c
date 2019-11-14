@@ -113,58 +113,77 @@ TreeNode * newNode(int value)
 #endif
 
 #ifdef TEST_PRINTPATH
-bool hasPath(TreeNode * node, int val)
+bool countPath(TreeNode * node, int val, int * lcv); // the count of nodes in the path
+bool hasPath(TreeNode * node, int val, int * arr, int * lcv); // the addition of nodes in the path
+
+bool countPath(TreeNode * node, int val, int * lcv)
 {
   if(node == NULL)
   {
-	return false;
+	return false; // returns false if the node doesn't exist
   }
   
-  printf("%d\n", node -> value);
+  *lcv += 1; // adds to the size of the array
   
   if(node -> value == val)
   {
-	return true;
+	return true; // if the node is equal to the desired value, returns value
   }
   
-  if(hasPath(node -> left, val) || hasPath(node -> right, val))
+  if(countPath(node -> left, val, lcv) || countPath(node -> right, val, lcv))
   {
-	return true;
+	return true; // checks that the path is possible on either side
   }
 
   return false;
+}
 
+bool hasPath(TreeNode * node, int val, int * arr, int * lcv)
+{
+  if(node == NULL)
+  {
+	return false; // if the node is equal to the desired value, returns value
+  }
+  
+  arr[*lcv] = node -> value; // adds the node to the array
+  *lcv += 1; // incremenets to the size of the array
+  
+  if(node -> value == val)
+  {
+	return true; // if the node is equal to the desired value, returns value
+  }
+  
+  if(hasPath(node -> left, val, arr, lcv) || hasPath(node -> right, val, arr, lcv))
+  {
+	return true; // checks that the path is possible on either side
+  }
+
+  return false;
 }
 
 void printPath(Tree * tr, int val)
 {
-  bool rtv;
-  rtv = hasPath(tr -> root, val);
+  bool rtv; // return value
+  int count; // the number of elements in the array
+  int index; // the index of the element being printed
+  int * array; // the array that will store elements in the array
+  
+  count = 0; // count of the number of nodes in the path
+  index = 0; // the index of the node added to the array
+
+  rtv = countPath(tr -> root, val, &count); // counts how many nodes are in the path
+  
+  array = malloc(sizeof(*array) * count); // creates space for the array
+  
+  rtv = hasPath(tr -> root, val, array, &index); // adds the nodes to the array
+  
+  for(index = count - 1; index >= 0; index--)
+  {
+	printf("%d\n", array[index]); // prints the value in the tree
+  }
+  
+  free(array);
   
   return;
- 
 }
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

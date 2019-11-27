@@ -96,8 +96,6 @@ int main(int argc, char * * argv)
   
   fclose(file); // closes the file
 
-
-
   //3. Find and print solution to soduku board
   if(fillSudoku(soduku, 0, 0))
   {
@@ -121,8 +119,6 @@ int main(int argc, char * * argv)
  
   return EXIT_SUCCESS;
 }
-
-
 
 void replaceAll(char *str, const char *oldWord, const char *newWord)
 {
@@ -157,33 +153,44 @@ void replaceAll(char *str, const char *oldWord, const char *newWord)
 
 int fillSudoku(int puzzle[][9], int row, int col)
 {
-    int i;
-    if(row<9 && col<9)
+  int i; // loop control variable
+	
+    if(row < 9 && col < 9)
     {
         if(puzzle[row][col] != 0)
         {
-            if((col+1)<9) return fillSudoku(puzzle, row, col+1);
-            else if((row+1)<9) return fillSudoku(puzzle, row+1, 0);
-            else return 1;
+            if((col + 1) < 9) 
+				return fillSudoku(puzzle, row, col + 1);
+			
+            else if((row + 1) < 9) 
+				return fillSudoku(puzzle, row + 1, 0);
+			
+            else 
+				return 1;
         }
         else
         {
-            for(i=0; i<9; ++i)
+            for(i = 0; i < 9; ++i)
             {
-                if(isAvailable(puzzle, row, col, i+1))
+                if(isAvailable(puzzle, row, col, i + 1))
                 {
-                    puzzle[row][col] = i+1;
-                    if((col+1)<9)
+                    puzzle[row][col] = i + 1;
+                    if((col + 1) < 9)
                     {
-                        if(fillSudoku(puzzle, row, col +1)) return 1;
+                        if(fillSudoku(puzzle, row, col + 1)) 
+						  return 1;
+					  
                         else puzzle[row][col] = 0;
                     }
-                    else if((row+1)<9)
+                    else if((row + 1) < 9)
                     {
-                        if(fillSudoku(puzzle, row+1, 0)) return 1;
+                        if(fillSudoku(puzzle, row + 1, 0)) 
+						  return 1;
+					  
                         else puzzle[row][col] = 0;
                     }
-                    else return 1;
+                    else 
+					  return 1;
                 }
             }
         }
@@ -194,15 +201,22 @@ int fillSudoku(int puzzle[][9], int row, int col)
 
 int isAvailable(int puzzle[][9], int row, int col, int num)
 {
-    int rowStart = (row/3) * 3;
-    int colStart = (col/3) * 3;
-    int i, j;
+  int rowStart = (row / 3) * 3; // start of the row
+  int colStart = (col / 3) * 3; // start of the column
+  int i; // outer loop control variable
+  int j; // inner loop control variable
 
-    for(i=0; i<9; ++i)
-    {
-        if (puzzle[row][i] == num) return 0;
-        if (puzzle[i][col] == num) return 0;
-        if (puzzle[rowStart + (i%3)][colStart + (i/3)] == num) return 0;
-    }
-    return 1;
+  for(i = 0; i < 9; ++i)
+  {
+    if(puzzle[row][i] == num) 
+	  return 0;
+	  
+    if(puzzle[i][col] == num) 
+	  return 0;
+	  
+    if(puzzle[rowStart + (i % 3)][colStart + (i / 3)] == num) 
+	  return 0;
+  }
+    
+  return 1;
 }

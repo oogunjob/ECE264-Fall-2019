@@ -15,7 +15,6 @@ testmemory: hw19
 	$(VAL) ./hw19 inputs/test3 output3
 	$(VAL) ./hw19 inputs/test4 output4
 	$(VAL) ./hw19 inputs/test5 output5
-	$(VAL) ./hw19 inputs/test6 output6
 
 testall: test1 test2 test3 test4 test5 test6
 
